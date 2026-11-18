@@ -61,7 +61,7 @@ footer{background:var(--ink);color:#aaa;padding:22px 32px;font-size:12px;margin-
 <!-- USE CASE 2 -->
 <div id="c2" style="display:none"><div class="promo">Illustrative mock help site. Not an official Nike site.</div><div id="h2"></div>
  <div class="wrap">
-  <div class="crumb">Help › Apps › Nike Run Club</div>
+  <div class="crumb" id="crumb2">Help › Apps › Nike Run Club</div>
   <div class="hero"><h1>Nike Run Club help</h1><div>Answers from Nike, and from runners who have solved it.</div><div class="box">🔍 Runs not syncing to Apple Health</div></div>
   <div class="topics"><div class="on">Syncing &amp; Apple Health</div><div>Sizing &amp; fit</div><div>Rewards &amp; streaks</div><div>Returns &amp; orders</div></div>
   <div class="tabs"><div class="tab on" id="t1" onclick="tab(1)">Help article</div><div class="tab" id="t2" onclick="tab(2)">Community <span class="tag" style="background:#fff0e8;color:#b33c00">Live</span></div></div>
@@ -87,7 +87,7 @@ let cur=1;
 function uc(n){cur=n;$('c0').style.display=n===0?'block':'none';$('u0').classList.toggle('on',n===0);if(n===0&&!$('fr0').src)$('fr0').src='portal-setup.html';document.querySelector('.story').style.display=n===0?'none':'';$('c1').style.display=n===1?'block':'none';$('c2').style.display=n===2?'block':'none';$('u1').classList.toggle('on',n===1);$('u2').classList.toggle('on',n===2);$('story').innerHTML=STORY[n];if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website';window.scrollTo(0,0)}
 function gptOpen(){$('g1').style.display='none';$('s1').style.display='block';if(!$('fr1').src)$('fr1').src='nike-community.html?embed=1&src=chatgpt&view=thread&open=1'}
 function gptBack(){$('s1').style.display='none';$('g1').style.display='block'}
-function tab(n){$('p1').style.display=n===1?'grid':'none';$('p2').style.display=n===2?'block':'none';$('t1').classList.toggle('on',n===1);$('t2').classList.toggle('on',n===2);if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website'}
+function tab(n){$('crumb2').textContent=n===2?'Help › Apps › Nike Run Club › Community':'Help › Apps › Nike Run Club';$('p1').style.display=n===1?'grid':'none';$('p2').style.display=n===2?'block':'none';$('t1').classList.toggle('on',n===1);$('t2').classList.toggle('on',n===2);if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website'}
 function send(f,m){if(f.contentWindow)f.contentWindow.postMessage(m,location.origin)}
 function openCommunity(where){tab(2);const go=()=>send($('fr2'),where==='thread'?{type:'nk-go',view:'thread',open:1}:where==='video'?{type:'nk-go',view:'home',fmt:'Video'}:{type:'nk-go',view:'home'});
  if($('fr2').contentDocument&&$('fr2').contentDocument.readyState==='complete')go();else $('fr2').onload=go}
@@ -95,7 +95,7 @@ function helpful(y){$('fb').innerHTML=y?'<b>Thanks! Glad it helped.</b>':'<b>Sor
 function role(r){$('rm').classList.toggle('on',r==='member');$('rs').classList.toggle('on',r==='staff');F().forEach(f=>send(f,{type:'nk-role',role:r}));toast(r==='staff'?'Staff view: admin insights and moderation appear in the community menu':'Member view')}
 function restart(){if(!confirm('Reset both use cases?'))return;['nk5-chatgpt','nk5-website','nkcfg'].forEach(k=>localStorage.removeItem(k));location.reload()}
 addEventListener('message',e=>{if(e.origin!==location.origin)return;const d=e.data||{};
- if(d.type==='nk'){const id=e.source===$('fr1').contentWindow?'chipA':'chipB';$(id).textContent=`🏅 #${d.rank} · ${d.pts} pts · ${d.lvl}`}
+ if(d.type==='nk'){const id=e.source===$('fr1').contentWindow?'chipA':'chipB';$(id).textContent=`🏅 #${d.rank} · ${d.pts} pts · ${d.lvl}`;if(d.name)$(id+'n').textContent='Hi '+d.name.split(' ')[0]}
  if(d.type==='nk-back'){tab(1)}
  if(d.type==='nk-cfg-saved')F().forEach(f=>send(f,{type:'nk-cfg'}));
  if(d.type==='nk-open-community')uc(2);});

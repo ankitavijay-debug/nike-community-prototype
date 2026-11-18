@@ -37,6 +37,14 @@ textarea,.in{width:100%;border:1px solid #bbb;border-radius:6px;padding:7px 10px
 .cap{padding:8px 12px;background:#000;font-size:13px;min-height:42px}.bar{height:5px;background:#444;cursor:pointer}.bar>div{height:100%;background:var(--org)}
 .pipe{display:flex;gap:6px;margin:8px 0}.pipe div{flex:1;border-radius:6px;padding:6px;font-size:12px;background:#f2f2f2;text-align:center}.pipe .done{background:#e1f5ee;color:var(--grn)}.pipe .cur{background:#fff4d6}
 .prog{height:8px;background:#eee;border-radius:5px}.prog>div{height:100%;background:var(--org);border-radius:5px;transition:.2s}
+/* Embedded: inherit the host portal's (Nike site) theme */
+body.emb{--blue:#111;--grn:#111;--aub:#fff;--bd:#e5e5e5;font-family:"Helvetica Neue",Arial,sans-serif;background:#fff}
+.emb .side{background:#fff;color:#111;border-right:1px solid var(--bd);padding:14px 8px}.emb .side h4{color:#6b6b6b}.emb .side a{border-radius:20px;padding:6px 14px;font-weight:600;color:#111}.emb .side a:hover{background:#f5f5f5}.emb .side a.on{background:#111;color:#fff}
+.emb .btn{border-radius:24px;padding:6px 16px;background:var(--pri,#111)}.emb .btn.s{background:#fff;color:#111;border:1px solid #bbb}
+.emb .chip{border-radius:20px}.emb .chip.on{background:#111;color:#fff;border-color:#111}
+.emb .card{border-radius:12px;border-color:var(--bd)}.emb h3{text-transform:uppercase;letter-spacing:-.5px;font-weight:900}
+.emb .hero{background:#111;text-align:left;border-radius:12px;padding:22px}.emb .hero b{text-transform:uppercase;font-size:24px;line-height:1.05;letter-spacing:-1px;font-weight:900;display:block}
+.emb .tag.b{background:#f0f0f0;color:#111}.emb a{color:#111}
 .emb .top,.emb .rail{display:none}.emb .side{width:170px}.emb body,body.emb{height:100vh}
 @media(max-width:1000px){.main{grid-template-columns:1fr}.right{display:none}.rail{display:none}.app{flex-direction:column}.side,.emb .side{width:auto;display:flex;align-items:center;gap:2px;padding:6px 10px;overflow-x:auto;overflow-y:hidden;flex:none;white-space:nowrap}.side h4{display:none}.side a{border-radius:14px;padding:4px 12px;gap:6px}}
 </style></head><body>
@@ -45,10 +53,10 @@ textarea,.in{width:100%;border:1px solid #bbb;border-radius:6px;padding:7px 10px
 <div class="app"><nav class="rail"><i>🏠</i><i>💬</i><i>🔔</i><i>🔖</i><i style="background:#fff3">✨</i><i>⋯</i></nav><nav class="side" id="side"></nav>
  <section class="main"><div class="col" id="col"></div><aside class="right" id="right"></aside></section></div>
 <div id="entryv" style="display:none;position:fixed;inset:0;z-index:15;overflow:auto;background:#f5f5f5"></div>
-<div class="ov" id="ov"><div class="modal" id="modal"></div></div><div class="toast" id="toast"></div>
+<div id="join" style="display:none"></div><div class="ov" id="ov"><div class="modal" id="modal"></div></div><div class="toast" id="toast"></div>
 <script>
 const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const QP=new URLSearchParams(location.search),SRC=QP.get('src')||'',ME=SRC==='chatgpt'?'Jordan Lee':'Alex Chen',COL=['#e01e5a','#2eb67d','#ecb22e','#36c5f0','#611f69','#1264a3'];
+const QP=new URLSearchParams(location.search),SRC=QP.get('src')||'';let ME=SRC==='chatgpt'?'Jordan Lee':'Alex Chen',COL=['#e01e5a','#2eb67d','#ecb22e','#36c5f0','#611f69','#1264a3'];
 const QUESTION='My Nike Run Club runs are not syncing to Apple Health. Anyone know why?';
 /* ILLUSTRATIVE content for a prototype. Not Nike's real policies or support answers. */
 const MEM0=()=>({[ME]:{role:'Member',badge:'Newcomer',pts:SRC==='chatgpt'?0:20},...(SRC==='chatgpt'?{'Sam Rivera':{role:'Member',badge:'Question Master',pts:30,topics:[]}}:{}),'Coach Maya':{role:'Run Club Coach · Nike',badge:'Pace Setter',pts:480,staff:1},'Dev Anand':{role:'Run Club Leader',badge:'Gear Guru',pts:310,topics:['size','fit','pegasus','wide','rain','shoe']},'Tasha Obi':{role:'Marathon runner',badge:'Marathon Mentor',pts:262,topics:['sync','health','app','apple','marathon','vaporfly']},'Leo Park':{role:'Member',badge:'Question Master',pts:44,topics:['rewards','streak']},'Sara Parras':{role:'Member',badge:'Trail Guide',pts:138,topics:['rain','trail']},'PromoBot':{role:'New account · 1 day old',badge:'Newcomer',pts:0,bot:1}});
@@ -78,7 +86,7 @@ const SEED=()=>({view:'entry',role:'member',filter:'All',fmt:'Text',nid:50,src:'
  {id:7,type:'idea',u:'Dev Anand',t:'Wider toe box option for race shoes',b:'Many of us size up just for width.',topic:'size',votes:64,status:'Under review',cat:'Product',age:'2w',replies:[]},
  {id:8,type:'idea',u:'Sara Parras',t:'Show streak rewards inside the run summary',b:'Make rewards visible after each run.',topic:'rewards',votes:51,status:'Shipped',cat:'App',age:'2mo',replies:[]}]});
 const KEY='nk5'+(SRC?'-'+SRC:'');
-let S=JSON.parse(localStorage.getItem(KEY)||'null')||SEED();const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||SEED();if(S.me)ME=S.me;const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
 const staff=()=>S.role==='staff',pending=x=>x.flag&&x.flag.state==='pending';
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),2800)}
 const lvl=p=>p>=300?'Pace Setter':p>=100?'Gear Guru':p>=40?'Helper':'Newcomer';
@@ -86,7 +94,7 @@ function badge(n){const m=S.mem[n];if(!m)return'';return n===ME?lvl(m.pts):m.bad
 function award(n,pts,why){if(!S.mem[n])S.mem[n]={role:'Member',badge:'Newcomer',pts:0};const b4=tlOf(S.mem[n].pts);S.mem[n].pts+=pts;S.log.unshift({n,pts,why});S.log=S.log.slice(0,8);if(n===ME){toast('+'+pts+' points: '+why);note('+'+pts+' · '+why);const a=tlOf(S.mem[n].pts);if(CFG.f.tl&&a>b4){note('🛡 You reached trust level '+a+': '+TLN[a]);toast('Trust level '+a+' unlocked')}checkBadges()}}
 function board(){return Object.keys(S.mem).filter(n=>!S.mem[n].bot).map(n=>({n,pts:S.mem[n].pts,role:S.mem[n].role,badge:badge(n)})).sort((a,b)=>b.pts-a.pts)}
 const rank=()=>board().findIndex(x=>x.n===ME)+1;
-const av=n=>`<div class="av" style="background:${COL[n.length%6]}">${n.split(/[ .]/).map(x=>x[0]).join('').slice(0,2)}</div>`;
+const av=n=>`<div class="av" style="background:${COL[n===ME&&S.avc!==undefined?S.avc:n.length%6]}">${n.split(/[ .]/).map(x=>x[0]).join('').slice(0,2)}</div>`;
 const who=n=>{const m=S.mem[n]||{};return `<b>${esc(n)}</b> ${m.staff?'<span class="tag or">Nike staff</span>':''}<span class="tag g">${badge(n)}</span>${CFG.f.tl&&!m.bot?`<span class="tag b">TL${tlOf(m.pts||0)}</span>`:''}<span class="meta">${m.pts||0} pts</span>`};
 function toggleRole(){S.role=staff()?'member':'staff';if(!staff()&&['admin','studio'].includes(S.view))S.view='home';save();render()}
 function restart(){if(confirm('Reset the demo?')){localStorage.removeItem(KEY);S=SEED();render()}}
@@ -106,8 +114,8 @@ function render(){autoLoop();if(EMBED&&S.view==='entry'){S.view=QP.get('view')||
  const m=S.mem[ME];$('mechip').textContent=`🏅 #${rank()} · ${m.pts} pts · ${lvl(m.pts)}`;
  $('entryv').style.display=S.view==='entry'?'block':'none';if(S.view==='entry'){$('entryv').innerHTML=entry();return}
  const nav=[['home','Home'],['hot','Hot discussions'],CFG.f.chat?['chat','Chat channels']:0,CFG.f.connections?['network','Connections']:0,CFG.f.ideas?['ideas','Ideas & feedback']:0,CFG.f.kb?['kb','Knowledge base']:0,CFG.f.board?['board',CFG.f.badges?'Leaderboard & badges':'Leaderboard']:0].filter(Boolean).concat(staff()?[['admin','Admin insights'+(loopN()?' ('+loopN()+')':'')],['studio','Video studio']]:[]);
- $('side').innerHTML='<h4>Community</h4>'+nav.map(([k,l])=>`<a class="${S.view===k||(S.view==='thread'&&k==='home')?'on':''}" onclick="go('${k}')"># ${l}</a>`).join('')+'<h4>Connections</h4>'+(Object.keys(S.conn).map(n=>`<a onclick="msg('${n}')">${n} <span>${S.conn[n]==='pending'?'⏳':'●'}</span></a>`).join('')||'<a style="opacity:.6">None yet</a>');
- $('col').innerHTML=({home,hot,chat:chatV,network,ideas,kb,board:boardV,admin,studio,thread})[S.view]();$('right').innerHTML=rightRail();paintVideo();if(parent!==window)parent.postMessage({type:'nk',rank:rank(),pts:m.pts,role:S.role,lvl:lvl(m.pts)},'*')}
+ $('side').innerHTML='<h4>Community</h4>'+nav.map(([k,l])=>`<a class="${S.view===k||(S.view==='thread'&&k==='home')?'on':''}" onclick="go('${k}')">${EMBED?'':'# '}${l}</a>`).join('')+'<h4>Connections</h4>'+(Object.keys(S.conn).map(n=>`<a onclick="msg('${n}')">${n} <span>${S.conn[n]==='pending'?'⏳':'●'}</span></a>`).join('')||'<a style="opacity:.6">None yet</a>');
+ $('col').innerHTML=({home,hot,chat:chatV,network,ideas,kb,board:boardV,admin,studio,thread})[S.view]();$('right').innerHTML=rightRail();paintVideo();if(parent!==window)parent.postMessage({type:'nk',rank:rank(),name:ME,pts:m.pts,role:S.role,lvl:lvl(m.pts)},'*')}
 addEventListener('message',e=>{if(e.origin!==location.origin)return;const d=e.data||{};if(d.type==='nk-role'){S.role=d.role;if(!staff()&&['admin','studio'].includes(S.view))S.view='home';save();render()}if(d.type==='nk-cfg'){CFG=loadCfg();render()}if(d.type==='nk-go'){if(d.fmt)S.fmt=d.fmt;S.view=d.view;if(d.open!==undefined)S.open=d.open;save();render()}});
 /* ---------- entry ---------- */
 function entry(){return `<div class="entry"><div class="meta">Step 1 · A runner asks outside the community</div>
@@ -263,8 +271,8 @@ function postMine(){const id=S.nid++;S.posts.unshift({id,type:'q',u:ME,t:QUESTIO
 /* ---------- Community features + config ---------- */
 const CFG0={name:'Nike Member Community',primary:'#fa5400',greeting:'Get instant answers from our knowledge base and fellow runners',
  cats:[{k:'sync',l:'Syncing & Apple Health',c:'#1264a3'},{k:'size',l:'Sizing & fit',c:'#2eb67d'},{k:'rewards',l:'Rewards & streaks',c:'#c58a00'},{k:'returns',l:'Returns & orders',c:'#e01e5a'}],
- f:{cats:1,tl:1,badges:1,flags:1,summary:1,polls:1,chat:1,ideas:1,board:1,video:1,notes:1,connections:1,kb:1},mod:{flagN:3,aiSpam:1,disclose:1},loop:{on:1,n:100,autoKB:1,autoFb:1}};
-function loadCfg(){let u={};try{u=JSON.parse(localStorage.getItem('nkcfg')||'{}')}catch(e){}return {...CFG0,...u,f:{...CFG0.f,...(u.f||{})},mod:{...CFG0.mod,...(u.mod||{})},loop:{...CFG0.loop,...(u.loop||{})}}}
+ f:{cats:1,tl:1,badges:1,flags:1,summary:1,polls:1,chat:1,ideas:1,board:1,video:1,notes:1,connections:1,kb:1},mod:{flagN:3,aiSpam:1,disclose:1},loop:{on:1,n:100,autoKB:1,autoFb:1},join:{mode:'sso'}};
+function loadCfg(){let u={};try{u=JSON.parse(localStorage.getItem('nkcfg')||'{}')}catch(e){}return {...CFG0,...u,f:{...CFG0.f,...(u.f||{})},mod:{...CFG0.mod,...(u.mod||{})},loop:{...CFG0.loop,...(u.loop||{})},join:{...CFG0.join,...(u.join||{})}}}
 let CFG=loadCfg();
 function applyCfg(){if(localStorage.getItem('nkcfg')){document.documentElement.style.setProperty('--pri',CFG.primary);document.documentElement.style.setProperty('--org',CFG.primary)}}
 const TLN=['New','Basic','Member','Regular','Leader'],TH=[0,20,60,150,300],TLUN=['Read and post questions','Flag posts and vote in polls','Edit tags and categories','Recategorise topics and hide spam','Help moderate the community'];
@@ -312,11 +320,39 @@ const CHN={lounge:'run-club-lounge',sizing:'sizing-help',sync:'sync-support'};
 function CH0(){return{lounge:[{u:'Dev Anand',t:'Morning runners! Anyone doing the long run Sunday?'},{u:'Tasha Obi',t:'21k at 7am. Come join.'}],sizing:[{u:'Leo Park',t:'Half size up for wide feet worked for me.'}],sync:[{u:'Tasha Obi',t:'Reminder: check Health > Data Access > Workouts first.'}]}}
 function chatV(){const ch=S.ch||'lounge';S.chlog=S.chlog||CH0();const L=S.chlog[ch]||[];
  return `<h3>💬 Chat channels</h3><div class="meta">Real-time chat for quick conversations. Longer questions belong in topics so they stay searchable.</div>
- <div style="display:flex;gap:6px;margin:8px 0">${Object.keys(CHN).map(k=>`<span class="chip ${ch===k?'on':''}" onclick="S.ch='${k}';render()"># ${CHN[k]}</span>`).join('')}</div>
+ <div style="display:flex;gap:6px;margin:8px 0">${Object.keys(CHN).filter(k=>!S.chs||S.chs.includes(k)).map(k=>`<span class="chip ${ch===k?'on':''}" onclick="S.ch='${k}';render()"># ${CHN[k]}</span>`).join('')}</div>
  <div class="card"><div style="min-height:200px;max-height:340px;overflow:auto">${L.map(m=>`<div class="row" style="justify-content:flex-start;align-items:flex-start">${av(m.u)}<div><b>${esc(m.u)}</b> <span class="meta">${badge(m.u)||''}</span><div>${md(m.t)}</div></div></div>`).join('')}</div>
  <div style="display:flex;gap:6px;margin-top:8px"><input class="in" id="chin" placeholder="Message #${CHN[ch]}" onkeydown="if(event.key==='Enter')sendCh()"><button class="btn" onclick="sendCh()">Send</button></div></div>`}
 const CHR={lounge:['Dev Anand','Count me in!'],sizing:['Leo Park','Try the size guide for that model.'],sync:['Tasha Obi','Did toggling Workouts off and on help?']};
 function sendCh(){const v=$('chin').value.trim();if(!v)return;const ch=S.ch||'lounge';S.chlog=S.chlog||CH0();S.chlog[ch].push({u:ME,t:v});save();render();setTimeout(()=>{S.chlog[ch].push({u:CHR[ch][0],t:CHR[ch][1]});save();if(S.view==='chat')render()},1200)}
+/* ---------- join (Slack-style) ---------- */
+const JCH=[['lounge','# run-club-lounge','Everyday chat with runners'],['sizing','# sizing-help','Fit and sizing questions'],['sync','# sync-support','App and Apple Health help']];
+let JD={av:undefined};
+function showJoin(){if(S.joined)return;const m=CFG.join.mode,def=ME;if(JD.av===undefined)JD.av=def.length%6;
+ $('join').style.cssText='display:flex;position:fixed;inset:0;z-index:100;background:#fff;overflow:auto';
+ const keep=$('jnm')?$('jnm').value:def;
+ $('join').innerHTML=`<div style="flex:1;display:flex;flex-wrap:wrap;min-height:100%;width:100%">
+ <div style="flex:1 1 300px;background:linear-gradient(160deg,${CFG.primary},#111);color:#fff;padding:36px;display:flex;flex-direction:column;justify-content:center">
+  <div style="width:54px;height:54px;border-radius:12px;background:#fff;color:${CFG.primary};display:grid;place-items:center;font:900 26px Georgia">${esc(CFG.name[0])}</div>
+  <h1 style="margin:18px 0 6px;font-size:28px;line-height:1.1">Join the ${esc(CFG.name)}</h1><div style="opacity:.9;max-width:380px">Get answers from runners who have solved it, and from Nike coaches. Real people. AI is always labelled.</div>
+  <div style="display:flex;margin:22px 0 6px">${['Tasha Obi','Dev Anand','Leo Park','Sara Parras','Coach Maya'].map((n,i)=>`<div style="width:34px;height:34px;border-radius:50%;background:${COL[i]};border:2px solid #fff;margin-left:${i?-8:0}px;display:grid;place-items:center;font-size:12px;font-weight:700">${n.split(' ').map(x=>x[0]).join('')}</div>`).join('')}</div>
+  <div style="font-size:13px;opacity:.9">1,284 members · 38 online now</div></div>
+ <div style="flex:1 1 340px;padding:32px;display:flex;flex-direction:column;justify-content:center;max-width:560px">
+  <h2 style="margin:0 0 4px">Create your profile</h2><div class="meta" style="margin-bottom:12px">${m==='sso'?'You are signed in to your Nike account. Choose how you appear in the community.':'Sign in, then choose how you appear in the community.'}</div>
+  ${m==='sso'?`<div class="card" style="background:#f6f6f6;margin-bottom:8px"><b>✓ Signed in</b> <span class="meta">Nike account · ${esc(def.toLowerCase().replace(/ /g,'.'))}@example.com</span></div>`:`<div style="display:flex;gap:6px;margin-bottom:8px"><button class="btn s" style="flex:1" onclick="$('jem').focus()"> Apple</button><button class="btn s" style="flex:1" onclick="$('jem').focus()">G Google</button></div><label class="meta">Email</label><input class="in" id="jem" placeholder="you@example.com">`}
+  <label class="meta" style="margin-top:8px;display:block">Display name <b style="color:#c23934">*</b></label><input class="in" id="jnm" value="${esc(keep)}" maxlength="30" placeholder="What should we call you?" oninput="jv()">
+  <div class="meta">Other members see this next to your posts. You can change it later.</div>
+  <label class="meta" style="margin-top:10px;display:block">Profile colour</label><div style="display:flex;gap:8px;margin:4px 0">${COL.map((c,i)=>`<div onclick="JD.av=${i};showJoin()" style="width:30px;height:30px;border-radius:50%;background:${c};cursor:pointer;box-shadow:${JD.av===i?'0 0 0 3px #fff,0 0 0 5px #111':'none'}"></div>`).join('')}</div>
+  <label class="meta" style="margin-top:10px;display:block">Channels to join</label>${JCH.map(c=>`<label style="display:flex;gap:8px;align-items:center;margin:4px 0"><input type="checkbox" class="jch" value="${c[0]}" checked><span><b>${c[1]}</b> <span class="meta">${c[2]}</span></span></label>`).join('')}
+  <label style="display:flex;gap:8px;align-items:flex-start;margin:12px 0" class="meta"><input type="checkbox" id="jtc" checked>I agree to the community guidelines. AI-generated content must be disclosed.</label>
+  <button class="btn" onclick="doJoin()" style="padding:10px;font-size:15px">Join community</button><div class="meta" id="jerr" style="color:#c23934;margin-top:6px"></div></div></div>`}
+function jv(){$('jerr').textContent=$('jnm').value.trim().length<2?'Choose a display name (2+ characters)':''}
+function doJoin(){const v=$('jnm').value.trim(),em=$('jem');if(v.length<2){jv();return}if(em&&!/.+@.+\..+/.test(em.value)){$('jerr').textContent='Enter a valid email address';return}if(!$('jtc').checked){$('jerr').textContent='Please accept the community guidelines';return}
+ if(S.mem[v]&&v!==ME){$('jerr').textContent='That name is taken. Try another';return}
+ const old=ME;if(v!==old){S.mem[v]=S.mem[old];delete S.mem[old];S.posts.forEach(p=>{if(p.u===old)p.u=v;p.replies.forEach(r=>{if(r.u===old)r.u=v})})}
+ ME=v;S.me=v;S.avc=JD.av;S.chs=[...document.querySelectorAll('.jch:checked')].map(x=>x.value);S.joined=1;if(!S.chs.includes(S.ch))S.ch=S.chs[0]||'lounge';
+ note('👋 Welcome to the community, '+v);if(S.chs.length)note('Joined '+S.chs.map(k=>'#'+CHN[k]).join(', '));
+ $('join').style.display='none';save();render();toast('Welcome, '+v+'! You joined '+S.chs.length+' channels')}
 /* ---------- trust labels ---------- */
 function trust(r){if(r.flag&&r.flag.state==='pending')return'flag';if(r.flag&&r.flag.state==='removed')return'removed';if(r.role==='ai')return'ai';if(r.role==='staff'||r.val)return'val';if((r.up||0)>=3||r.best)return'comm';return'none'}
 function trustCard(p){const c={val:0,comm:0,ai:0,flag:0};p.replies.forEach(r=>{const t=trust(r);if(t==='val')c.val++;if(t==='comm')c.comm++;if(t==='ai')c.ai++;if(t==='flag'||t==='removed')c.flag++});
@@ -358,5 +394,5 @@ function rightRail(){const m=S.mem[ME],b=board().slice(0,4),next=m.pts>=300?null
  return `<div class="card"><b>🏅 Your standing</b><div style="font-size:22px">#${rank()} · ${m.pts} pts</div><span class="tag g">${lvl(m.pts)}</span>${next?`<div class="meta">${next-m.pts} pts to the next badge</div><div class="prog"><div style="width:${Math.min(100,m.pts/next*100)}%"></div></div>`:'<div class="meta">Top badge reached</div>'}</div>
  ${tlCard()}${notesCard()}<div class="card"><b>Leaderboard</b>${b.map((x,i)=>`<div class="row" style="${x.n===ME?'font-weight:700;color:var(--blue)':''}"><span>${i+1}. ${x.n}<div><span class="tag g">${x.badge}</span></div></span><b>${x.pts}</b></div>`).join('')}<a class="meta" style="cursor:pointer" onclick="go('board')">View full leaderboard</a></div>
  <div class="card"><b>Trust labels</b><div class="meta"><span class="tag g">✓ Validated by Nike</span> staff-checked<br><span class="tag g">✓ Community-validated</span> 3+ helpful votes<br><span class="tag ai">✨ AI-written</span> disclosed AI, no points<br><span class="tag r">🚩 AI-flagged</span> held for review</div></div><div class="card"><b>Recent activity</b>${S.log.map(l=>`<div class="meta">+${l.pts} ${l.n===ME?'You':l.n} · ${l.why}</div>`).join('')||'<div class="meta">Post, reply or vote to earn points.</div>'}</div>`}
-render();
+render();showJoin();
 </script></body></html>
