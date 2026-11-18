@@ -260,7 +260,7 @@ function srcBanner(){if(SRC==='chatgpt'){const p=S.posts.find(x=>x.id===1),val=p
 function sameProb(){if(S.same)return;S.same=1;S.posts.find(x=>x.id===1).asks++;save();render();toast('Counted. Nike sees this question is common')}
 function postMine(){const id=S.nid++;S.posts.unshift({id,type:'q',u:ME,t:QUESTION,b:QUESTION,topic:'sync',asks:1,age:'just now',solved:false,replies:[]});award(ME,2,'asked a question');S.view='thread';S.open=id;save();render()}
 
-/* ---------- Discourse-style features + config ---------- */
+/* ---------- Community features + config ---------- */
 const CFG0={name:'Nike Member Community',primary:'#fa5400',greeting:'Get instant answers from our knowledge base and fellow runners',
  cats:[{k:'sync',l:'Syncing & Apple Health',c:'#1264a3'},{k:'size',l:'Sizing & fit',c:'#2eb67d'},{k:'rewards',l:'Rewards & streaks',c:'#c58a00'},{k:'returns',l:'Returns & orders',c:'#e01e5a'}],
  f:{cats:1,tl:1,badges:1,flags:1,summary:1,polls:1,chat:1,ideas:1,board:1,video:1,notes:1,connections:1,kb:1},mod:{flagN:3,aiSpam:1,disclose:1},loop:{on:1,n:100,autoKB:1,autoFb:1}};

@@ -140,10 +140,10 @@ To show branding live, duplicate the file and change the brand name, the `--org`
 
 ---
 
-## Update: setup first, then Discourse-style features
+## Update: setup first, then community features
 
 **Tab ① Set up with Claude** (`portal-setup.html`, Salesforce Setup look). Type one sentence, e.g. "Set up a community for Adidas, blue, no video, flag after 5", or click **Quick setup**. Claude fills a 7-step path (Site, Brand, Agent & knowledge, Features, Moderation & trust, Access & growth, Review). Click **Activate**, then **Open community**: name, colour, menu and flag threshold follow the setup. **↺ Restart both** clears it.
 
-Discourse-style features in the community: categories and tags with Latest/Top, trust levels TL0-TL4 (flagging and polls unlock at 20 pts), badges (bronze/silver/gold) on the Leaderboard page, flag reasons, AI topic summary, polls, chat channels, notifications, markdown and attach. Simulated: attachments, chat replies, summary text, SSO/SEO/2FA toggles (setup records them, nothing enforces them).
+Community features: categories and tags with Latest/Top, trust levels TL0-TL4 (flagging and polls unlock at 20 pts), badges (bronze/silver/gold) on the Leaderboard page, flag reasons, AI topic summary, polls, chat channels, notifications, markdown and attach. Simulated: attachments, chat replies, summary text, SSO/SEO/2FA toggles (setup records them, nothing enforces them).
 
 **Repeated questions loop.** In setup, Claude asks how to handle repeated questions: highlight to admin, draft a KB article and add to product feedback (automatic), highlight only, or off, plus the threshold (25/50/100/200 members). In the community, switch to Nike staff, open **Admin insights**: the **Repeated questions** card lists the highlighted questions, a KB draft is ready to review and publish, and a "Fix needed" item appears in product feedback. Simulated: the KB draft text and the counts.

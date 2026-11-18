@@ -41,7 +41,7 @@ footer{background:var(--ink);color:#aaa;padding:22px 32px;font-size:12px;margin-
  <span class="sp"></span>View as <button id="rm" class="on" onclick="role('member')">Member</button><button id="rs" onclick="role('staff')">Nike staff</button><button onclick="restart()">↺ Restart both</button></div>
 <div class="story" id="story"></div>
 
-<div id="c0"><iframe id="fr0" title="Agentic Portal Setup" style="height:calc(100vh - 84px);min-height:560px;margin:0;border-radius:0;border:0"></iframe></div>
+<div id="c0"><iframe id="fr0" title="Community setup" style="height:calc(100vh - 84px);min-height:560px;margin:0;border-radius:0;border:0"></iframe></div>
 <!-- USE CASE 1 -->
 <div id="c1" style="display:none">
  <div id="g1" class="gpt"><div class="top">ChatGPT <span class="meta">(illustrative mock of an AI assistant)</span></div>
@@ -77,7 +77,7 @@ footer{background:var(--ink);color:#aaa;padding:22px 32px;font-size:12px;margin-
 <div class="toast" id="toast"></div>
 <script>
 const $=i=>document.getElementById(i),F=()=>[$('fr1'),$('fr2')];
-const STORY={0:'<b>Step 1 · Set up the community.</b> A Nike admin describes the community in one sentence in the Agentic Portal Setup (Salesforce Setup look). Claude configures site, brand, agent, Discourse-style features and moderation. Click <b>Activate</b>, then open the community tabs to see the result.',1:'<b>Use case 1 · Arrives from ChatGPT.</b> Jordan Lee is a first-time visitor, signed out of the community. ChatGPT cited the community as a source. Jordan lands on the real discussion with validated answers, sees how many runners had the same problem, and can join in.',
+const STORY={0:'<b>Step 1 · Set up the community.</b> A Nike admin describes the community in one sentence in the community setup assistant. Claude configures site, brand, agent, community features and moderation. Click <b>Activate</b>, then open the community tabs to see the result.',1:'<b>Use case 1 · Arrives from ChatGPT.</b> Jordan Lee is a first-time visitor, signed out of the community. ChatGPT cited the community as a source. Jordan lands on the real discussion with validated answers, sees how many runners had the same problem, and can join in.',
  2:'<b>Use case 2 · Arrives from the Nike website.</b> Alex Chen is a signed-in member reading a help article. The article did not solve it, so Alex moves into the community inside the same site and brand.'};
 const HDR=id=>`<header><span class="logo">NIKE</span><nav><a>New</a><a>Men</a><a>Women</a><a>Kids</a><a class="on">Help</a></nav><div class="srch">🔍 Search help</div><div class="user"><span id="${id}n"></span><span class="pill" id="${id}">🏅 …</span></div></header>`;
 $('h1').innerHTML=HDR('chipA');$('h2').innerHTML=HDR('chipB');

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Setup assistant</title>
+<html lang="en"><head><meta charset="utf-8"><title>Community setup assistant</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 :root{--ink:#1f1e1d;--mut:#73706b;--bd:#e6e4df;--bg:#fff;--sel:#ebe8e1;--co:#d9663f;--pri:#fa5400;--ok:#2e844a}
@@ -43,10 +43,10 @@
 @media(max-width:1100px){.lv{display:none}}
 @media(max-width:760px){.sb{display:none}}
 </style></head><body>
-<aside class="sb"><div class="ttl"><i>✺</i>Setup assistant</div><div class="it">🔍 Search</div><div class="lab">RECENT</div><div class="it on">Agentic Portal setup</div><div class="sp"></div>
+<aside class="sb"><div class="ttl"><i>✺</i>Setup assistant</div><div class="it">🔍 Search</div><div class="lab">RECENT</div><div class="it on">Community setup</div><div class="sp"></div>
  <div class="it">⚙ Settings</div><div class="it">🔈 Voice <small>Off</small></div><div class="it">⬇ Updates</div><div class="it">⏻ Close assistant</div>
  <div class="usr"><div class="av">R</div><div><b>Riya</b><span>Setup assistant connected</span></div></div></aside>
-<div class="mn"><div class="tp"><span class="t">Agentic Portal setup</span><span class="sw">⚙ Switch to manual</span></div>
+<div class="mn"><div class="tp"><span class="t">Community setup</span><span class="sw">⚙ Switch to manual</span></div>
  <div class="wk"><div class="cm"><div class="msgs" id="msgs"><div class="col" id="col"></div></div>
  <div class="dock"><div class="dk"><div id="qc"></div><div class="box"><input id="in" placeholder="Reply to Claude…" onkeydown="if(event.key==='Enter')send()"><div class="bt">＋<span class="sp"></span>🎤<button class="snd" onclick="send()">↑</button></div></div></div><div class="foot">Setup assistant can make mistakes. Check important settings before publishing.</div></div></div>
  <div class="lv"><div class="lh">🌐 Your community <span class="live" id="lt">building live</span></div><div class="lb" id="lb"></div></div></div></div>
@@ -66,9 +66,9 @@ function dock(title,body){$('qc').innerHTML=body?`<div class="qc"><div class="qh
 const ops=(a)=>a.map(o=>`<div class="op ${o.on?'on':''} ${o.else?'else':''}" onclick="${o.f}"><span class="oi">${o.i}</span><div><b>${o.t}</b>${o.d?`<small>${o.d}</small>`:''}</div>${o.cb?'<span class="cb">'+(o.on?'✓':'')+'</span>':''}</div>`).join('');
 function applyTpl(k){const t=TPL.find(x=>x.k===k);C.on={};t.on.forEach(f=>C.on[f]=1);C.cats=[...t.cats]}
 function nameFrom(t){const m=t.match(/(?:for|called|named|brand|company)\s+([A-Z][\w&']+(?:\s[A-Z][\w&']+)?)/);return m?m[1]:/nike/i.test(t)?'Nike':null}
-function start(){stage=0;col().innerHTML='';A('<div class="tool">Loaded portal setup tools ▸</div><p>Hi there! 👋 I\'m your Setup Assistant. I\'ll set up your community step by step. Here\'s how it works:</p><ol><li><b>Goal:</b> you tell me what you want to build.</li><li><b>Set up:</b> we pick a template, colours and features together.</li><li><b>Check:</b> I review everything with you before you publish.</li></ol><p>You stay in control throughout.</p>');
+function start(){stage=0;col().innerHTML='';A('<div class="tool">Loaded community setup tools ▸</div><p>Hi there! 👋 I\'m your Setup Assistant. I\'ll set up your community step by step. Here\'s how it works:</p><ol><li><b>Goal:</b> you tell me what you want to build.</li><li><b>Set up:</b> we pick a template, colours and features together.</li><li><b>Check:</b> I review everything with you before you publish.</li></ol><p>You stay in control throughout.</p>');
  add('<span onclick="ex(\'What is a community template?\')">What is a template?</span><span onclick="ex(\'What are trust levels?\')">What are trust levels?</span>','sug');askGoal()}
-function ex(q){U(q);setTimeout(()=>A(/trust/i.test(q)?'Trust levels (borrowed from Discourse) unlock privileges as members contribute. New members can read and post. At 20 points they can flag and vote in polls, and higher levels help moderate.':'A template is a starting set of categories and features for a goal, like a support community or a feedback hub. You can change every part afterwards.'),300)}
+function ex(q){U(q);setTimeout(()=>A(/trust/i.test(q)?'Trust levels unlock privileges as members contribute. New members can read and post. At 20 points they can flag and vote in polls, and higher levels help moderate.':'A template is a starting set of categories and features for a goal, like a support community or a feedback hub. You can change every part afterwards.'),300)}
 function askGoal(){dock('What would you like to build?',ops([{i:'🏃',t:'Help runners fix app sync problems',d:'Nike Run Club + Apple Health',f:"goal('Help Nike Run Club members fix sync problems and get answers from other runners')"},{i:'👟',t:'A fan community for Adidas',d:'Training tips and member stories',f:"goal('Build a fan community for Adidas where members share training tips')"},{i:'💡',t:'Collect product feedback',d:'Ideas and votes sent to product',f:"goal('Collect product feedback from customers and send the top ideas to product')"},{i:'✏️',t:'Describe your own goal',else:1,f:"$('in').focus()"}]))}
 function goal(t){U(t);setGoal(t)}
 function setGoal(t){const n=nameFrom(t);if(n)C.name=n+' Member Community';const g=/feedback|idea/i.test(t)?'feedback':/fan|share|tips/i.test(t)?'fan':/help|fix|problem|support/i.test(t)?'help':'help';C.tpl=g;applyTpl(g);stage=1;live();
