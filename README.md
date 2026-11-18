@@ -17,3 +17,6 @@ Open http://localhost:8765/nike-help-site.html
 - `nike-community-demo-script.md`: walkthrough, what is simulated, and how to embed it in a customer's branding.
 
 State is stored in the browser (localStorage). Use "Restart both" to reset.
+
+## Setup assistant
+Open the demo and start on tab 1: a Setup-assistant-style chat asks the goal, template, colours, feature sets and how to handle repeated questions, while the community builds live beside it. Files: `portal-setup.html` (setup), `nike-community.html` (community), `nike-help-site.html` (host page).

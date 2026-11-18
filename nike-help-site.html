@@ -4,7 +4,7 @@
 <style>
 :root{--ink:#111;--mut:#6b6b6b;--line:#e5e5e5;--or:#fa5400;--bg:#f5f5f5}
 *{box-sizing:border-box}body{margin:0;font:15px/1.5 "Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff}
-.strip{position:sticky;top:0;z-index:30;background:#111;color:#fff;display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;flex-wrap:wrap}
+.strip{position:sticky;top:0;z-index:30;background:#111;color:#fff;display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:12px;flex-wrap:wrap}
 .uc{padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:700;background:#ffffff1f}.uc.on{background:var(--or)}
 .strip .sp{flex:1}.strip button{background:#fff;color:#111;border:0;border-radius:6px;padding:4px 10px;cursor:pointer;font-weight:600}.strip button.on{background:var(--or);color:#fff}
 .story{background:#fff8f3;border-bottom:1px solid #ffd9c2;padding:8px 16px;font-size:13px}
@@ -36,13 +36,14 @@ footer{background:var(--ink);color:#aaa;padding:22px 32px;font-size:12px;margin-
 .src{display:inline-flex;gap:6px;align-items:center;border:1px solid #ddd;border-radius:16px;padding:3px 12px;font-size:12px;margin:3px 6px 3px 0;background:#fff}.src.hot{border-color:#10a37f;background:#effaf6;cursor:pointer;font-weight:600}
 .inp{margin-top:30px;border:1px solid #ddd;border-radius:24px;padding:12px 18px;color:#999}
 </style></head><body>
-<div class="strip"><b>Nike community prototype</b>
- <span class="uc on" id="u1" onclick="uc(1)">① Arrives from ChatGPT</span><span class="uc" id="u2" onclick="uc(2)">② Arrives from the Nike website</span>
+<div class="strip"><b>Nike prototype</b>
+ <span class="uc on" id="u0" onclick="uc(0)">① Set up community</span><span class="uc" id="u1" onclick="uc(1)">② From ChatGPT</span><span class="uc" id="u2" onclick="uc(2)">③ From Nike website</span>
  <span class="sp"></span>View as <button id="rm" class="on" onclick="role('member')">Member</button><button id="rs" onclick="role('staff')">Nike staff</button><button onclick="restart()">↺ Restart both</button></div>
 <div class="story" id="story"></div>
 
+<div id="c0"><iframe id="fr0" title="Agentic Portal Setup" style="height:calc(100vh - 84px);min-height:560px;margin:0;border-radius:0;border:0"></iframe></div>
 <!-- USE CASE 1 -->
-<div id="c1">
+<div id="c1" style="display:none">
  <div id="g1" class="gpt"><div class="top">ChatGPT <span class="meta">(illustrative mock of an AI assistant)</span></div>
   <div class="conv"><div class="ub">My Nike Run Club runs are not syncing to Apple Health. Anyone know why?</div>
    <p><b>Common reasons Nike Run Club runs do not appear in Apple Health:</b></p>
@@ -76,14 +77,14 @@ footer{background:var(--ink);color:#aaa;padding:22px 32px;font-size:12px;margin-
 <div class="toast" id="toast"></div>
 <script>
 const $=i=>document.getElementById(i),F=()=>[$('fr1'),$('fr2')];
-const STORY={1:'<b>Use case 1 · Arrives from ChatGPT.</b> Jordan Lee is a first-time visitor, signed out of the community. ChatGPT cited the community as a source. Jordan lands on the real discussion with validated answers, sees how many runners had the same problem, and can join in.',
+const STORY={0:'<b>Step 1 · Set up the community.</b> A Nike admin describes the community in one sentence in the Agentic Portal Setup (Salesforce Setup look). Claude configures site, brand, agent, Discourse-style features and moderation. Click <b>Activate</b>, then open the community tabs to see the result.',1:'<b>Use case 1 · Arrives from ChatGPT.</b> Jordan Lee is a first-time visitor, signed out of the community. ChatGPT cited the community as a source. Jordan lands on the real discussion with validated answers, sees how many runners had the same problem, and can join in.',
  2:'<b>Use case 2 · Arrives from the Nike website.</b> Alex Chen is a signed-in member reading a help article. The article did not solve it, so Alex moves into the community inside the same site and brand.'};
 const HDR=id=>`<header><span class="logo">NIKE</span><nav><a>New</a><a>Men</a><a>Women</a><a>Kids</a><a class="on">Help</a></nav><div class="srch">🔍 Search help</div><div class="user"><span id="${id}n"></span><span class="pill" id="${id}">🏅 …</span></div></header>`;
 $('h1').innerHTML=HDR('chipA');$('h2').innerHTML=HDR('chipB');
 const st={n:{chipA:'Jordan',chipB:'Alex'}};['chipA','chipB'].forEach(i=>$(i+'n').textContent='Hi '+st.n[i]);
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 let cur=1;
-function uc(n){cur=n;$('c1').style.display=n===1?'block':'none';$('c2').style.display=n===2?'block':'none';$('u1').classList.toggle('on',n===1);$('u2').classList.toggle('on',n===2);$('story').innerHTML=STORY[n];if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website';window.scrollTo(0,0)}
+function uc(n){cur=n;$('c0').style.display=n===0?'block':'none';$('u0').classList.toggle('on',n===0);if(n===0&&!$('fr0').src)$('fr0').src='portal-setup.html';document.querySelector('.story').style.display=n===0?'none':'';$('c1').style.display=n===1?'block':'none';$('c2').style.display=n===2?'block':'none';$('u1').classList.toggle('on',n===1);$('u2').classList.toggle('on',n===2);$('story').innerHTML=STORY[n];if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website';window.scrollTo(0,0)}
 function gptOpen(){$('g1').style.display='none';$('s1').style.display='block';if(!$('fr1').src)$('fr1').src='nike-community.html?embed=1&src=chatgpt&view=thread&open=1'}
 function gptBack(){$('s1').style.display='none';$('g1').style.display='block'}
 function tab(n){$('p1').style.display=n===1?'grid':'none';$('p2').style.display=n===2?'block':'none';$('t1').classList.toggle('on',n===1);$('t2').classList.toggle('on',n===2);if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website'}
@@ -92,9 +93,11 @@ function openCommunity(where){tab(2);const go=()=>send($('fr2'),where==='thread'
  if($('fr2').contentDocument&&$('fr2').contentDocument.readyState==='complete')go();else $('fr2').onload=go}
 function helpful(y){$('fb').innerHTML=y?'<b>Thanks! Glad it helped.</b>':'<b>Sorry it did not solve it.</b><div class="meta" style="margin:4px 0">214 runners had the same problem. Their answers are validated by Nike and the community.</div><button class="btn o" onclick="openCommunity(\'thread\')">Open the community answers</button>'}
 function role(r){$('rm').classList.toggle('on',r==='member');$('rs').classList.toggle('on',r==='staff');F().forEach(f=>send(f,{type:'nk-role',role:r}));toast(r==='staff'?'Staff view: admin insights and moderation appear in the community menu':'Member view')}
-function restart(){if(!confirm('Reset both use cases?'))return;['nk4-chatgpt','nk4-website'].forEach(k=>localStorage.removeItem(k));location.reload()}
+function restart(){if(!confirm('Reset both use cases?'))return;['nk5-chatgpt','nk5-website','nkcfg'].forEach(k=>localStorage.removeItem(k));location.reload()}
 addEventListener('message',e=>{if(e.origin!==location.origin)return;const d=e.data||{};
  if(d.type==='nk'){const id=e.source===$('fr1').contentWindow?'chipA':'chipB';$(id).textContent=`🏅 #${d.rank} · ${d.pts} pts · ${d.lvl}`}
- if(d.type==='nk-back'){tab(1)}});
-uc(1);
+ if(d.type==='nk-back'){tab(1)}
+ if(d.type==='nk-cfg-saved')F().forEach(f=>send(f,{type:'nk-cfg'}));
+ if(d.type==='nk-open-community')uc(2);});
+uc(0);
 </script></body></html>

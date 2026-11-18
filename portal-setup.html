@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Setup assistant</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--ink:#1f1e1d;--mut:#73706b;--bd:#e6e4df;--bg:#fff;--sel:#ebe8e1;--co:#d9663f;--pri:#fa5400;--ok:#2e844a}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font:14px/1.55 -apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg);display:flex}
+.sb{width:244px;border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:14px 11px;flex:none}
+.ttl{font:600 18px Georgia,"Times New Roman",serif;display:flex;align-items:center;gap:8px;padding:2px 6px 14px}.ttl i{color:var(--co);font-style:normal}
+.sb .it{display:flex;gap:10px;align-items:center;padding:7px 9px;border-radius:8px;color:#444;cursor:default}.sb .lab{font-size:11px;color:var(--mut);letter-spacing:.05em;padding:14px 9px 5px}.sb .on{background:var(--sel);color:var(--ink)}
+.sb .sp{flex:1}.sb .it small{margin-left:auto;color:var(--mut)}
+.usr{display:flex;gap:10px;align-items:center;padding:12px 6px 0;border-top:1px solid var(--bd);margin-top:8px}.av{width:32px;height:32px;border-radius:50%;background:var(--co);color:#fff;display:grid;place-items:center;font-weight:700}.usr b{display:block;font-size:13px}.usr span{font-size:12px;color:var(--mut)}
+.mn{flex:1;display:flex;flex-direction:column;min-width:0}
+.tp{height:50px;border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:12px;flex:none}.tp .t{flex:1}.sw{border:1px solid var(--bd);border-radius:8px;padding:5px 12px;font-size:13px;background:#fff}
+.msgs{flex:1;overflow:auto;padding:22px 0 10px}.col{max-width:650px;margin:0 auto;padding:0 16px}
+.tool{color:var(--mut);font-size:13px;margin-bottom:12px}
+.a{margin-bottom:16px}.a p{margin:0 0 10px}.a ol{padding-left:22px;margin:0 0 10px}.a li{margin:6px 0}
+.u{margin:0 0 16px auto;background:var(--sel);border-radius:14px;padding:8px 14px;width:fit-content;max-width:85%}
+.sug{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.sug span,.pill{border:1px solid var(--bd);border-radius:10px;padding:6px 12px;font-size:13px;cursor:pointer;background:#fff}.sug span:hover,.pill:hover{background:#faf9f6}
+.dock{padding:0 16px 8px}.dk{max-width:650px;margin:0 auto}
+.qc{border:1px solid var(--bd);border-radius:14px;background:#fff;margin-bottom:8px;box-shadow:0 2px 10px #0000000a;overflow:hidden}
+.qh{display:flex;justify-content:space-between;padding:13px 17px 7px}.qh b{font-weight:500}.qh span{color:var(--mut);cursor:pointer}
+.op{display:flex;gap:12px;align-items:center;padding:9px 17px;cursor:pointer;border-top:1px solid #f0eeea}.op:hover{background:#faf9f6}.op.on{background:#f5f3ee}
+.oi{width:30px;height:30px;border-radius:8px;background:var(--sel);display:grid;place-items:center;flex:none}.op b{display:block;font-weight:500}.op small{color:var(--mut);font-size:12px;display:block}.op.else b{color:var(--mut)}
+.cb{width:18px;height:18px;border-radius:5px;border:1.5px solid #bbb;margin-left:auto;display:grid;place-items:center;color:#fff;font-size:12px;flex:none}.op.on .cb{background:var(--co);border-color:var(--co)}
+.dots{display:flex;gap:10px;padding:8px 17px 12px;align-items:center;flex-wrap:wrap}.dot{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 0 0 1.5px var(--bd)}.dot.on{box-shadow:0 0 0 2.5px var(--ink)}
+.cont{display:block;margin:6px 17px 14px auto;background:var(--ink);color:#fff;border:0;border-radius:9px;padding:7px 18px;font:inherit;cursor:pointer}
+.box{border:1px solid var(--bd);border-radius:16px;padding:12px 14px 8px;background:#fff;box-shadow:0 2px 10px #0000000a}.box input{width:100%;border:0;outline:0;font:inherit;margin-bottom:10px}.bt{display:flex;align-items:center;gap:12px;color:var(--mut)}.bt .sp{flex:1}.snd{width:30px;height:30px;border-radius:50%;background:var(--co);color:#fff;display:grid;place-items:center;cursor:pointer;border:0}
+.foot{text-align:center;font-size:11px;color:var(--mut);padding:6px 0 10px}
+.card{border:1px solid var(--bd);border-radius:12px;overflow:hidden;margin:4px 0 14px;font-size:13px}.card .bar{padding:9px 14px;color:#fff;font-weight:600}.card .hr{padding:12px 14px;color:#fff;background:#111}.card .bd{padding:10px 14px}
+.pc{display:inline-block;border-radius:10px;padding:1px 9px;margin:2px 4px 2px 0;font-size:12px}.pf{display:inline-block;border:1px solid var(--bd);border-radius:6px;padding:1px 8px;margin:2px 4px 2px 0;font-size:12px;color:#555}
+.run div{padding:2px 0}.run .d:before{content:"✓  ";color:var(--ok);font-weight:700}
+.go{background:var(--ink);color:#fff;border:0;border-radius:9px;padding:9px 18px;font:inherit;cursor:pointer;margin:2px 8px 0 0}.go.n{background:#fff;color:var(--ink);border:1px solid var(--bd)}
+.wk{flex:1;display:flex;min-width:0}.cm{flex:1;display:flex;flex-direction:column;min-width:0}
+.lv{width:46%;max-width:620px;border-left:1px solid var(--bd);background:#f5f4f0;display:flex;flex-direction:column;flex:none}
+.lh{height:50px;border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 14px;gap:8px;background:#fff;font-weight:500}.lh .live{margin-left:auto;font-size:12px;color:var(--ok)}.lh .live:before{content:"● ";animation:bl 1s infinite}
+@keyframes bl{50%{opacity:.2}}@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.lb{flex:1;overflow:auto;padding:16px}.site{background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 4px 18px #0000000d}
+.site>*{animation:fi .45s both}.sk{background:#ececec;border-radius:6px;height:12px;margin:8px 14px}
+.stop{padding:10px 14px;color:#fff;font-weight:700;display:flex;gap:10px;align-items:center;transition:background .4s}.snav{display:flex;gap:6px;flex-wrap:wrap;padding:8px 12px;background:#fafafa;border-bottom:1px solid var(--bd)}.snav span{font-size:12px;padding:3px 10px;border-radius:14px;background:#fff;border:1px solid var(--bd);animation:fi .4s both}
+.shero{padding:18px 14px;color:#fff;text-align:center;transition:background .4s}.sbd{padding:12px 14px}
+.fd{border:1px solid var(--bd);border-radius:8px;padding:9px 11px;margin:8px 0;animation:fi .4s both;font-size:13px}.fd small{color:var(--mut);display:block}
+.lv iframe{border:0;width:100%;height:100%;display:block}.step{margin:12px 0 0;font-size:12px;color:var(--mut);text-align:center}
+@media(max-width:1100px){.lv{display:none}}
+@media(max-width:760px){.sb{display:none}}
+</style></head><body>
+<aside class="sb"><div class="ttl"><i>✺</i>Setup assistant</div><div class="it">🔍 Search</div><div class="lab">RECENT</div><div class="it on">Agentic Portal setup</div><div class="sp"></div>
+ <div class="it">⚙ Settings</div><div class="it">🔈 Voice <small>Off</small></div><div class="it">⬇ Updates</div><div class="it">⏻ Close assistant</div>
+ <div class="usr"><div class="av">R</div><div><b>Riya</b><span>Setup assistant connected</span></div></div></aside>
+<div class="mn"><div class="tp"><span class="t">Agentic Portal setup</span><span class="sw">⚙ Switch to manual</span></div>
+ <div class="wk"><div class="cm"><div class="msgs" id="msgs"><div class="col" id="col"></div></div>
+ <div class="dock"><div class="dk"><div id="qc"></div><div class="box"><input id="in" placeholder="Reply to Claude…" onkeydown="if(event.key==='Enter')send()"><div class="bt">＋<span class="sp"></span>🎤<button class="snd" onclick="send()">↑</button></div></div></div><div class="foot">Setup assistant can make mistakes. Check important settings before publishing.</div></div></div>
+ <div class="lv"><div class="lh">🌐 Your community <span class="live" id="lt">building live</span></div><div class="lb" id="lb"></div></div></div></div>
+<script>
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const FEAT=[['cats','Categories & tags','Organise topics and filter the feed','🗂','Organise'],['kb','Knowledge base','Official articles the Agent answers from','📚','Organise'],['tl','Trust levels','Members earn privileges as they contribute','🛡','Engage'],['badges','Badges','Bronze, silver and gold achievements','🏅','Engage'],['board','Leaderboard','Points and ranking','🏆','Engage'],['polls','Polls','Quick votes inside a topic','📊','Engage'],['notes','Notifications','Alerts for points, badges and replies','🔔','Engage'],['chat','Chat channels','Real-time rooms beside topics','💬','Connect'],['connections','Connections & DMs','Members connect, message and huddle','🤝','Connect'],['ideas','Ideas & feedback','Voting, routed to product','💡','Connect'],['summary','AI topic summaries','Condense long threads','✨','AI & trust'],['video','Troubleshooting video','AI-generated, labelled until verified','🎬','AI & trust'],['aiDetect','AI-content detection','Hold AI-written replies for staff review','🔎','AI & trust'],['disclose','AI disclosure','Ask authors to say when AI helped','🏷','AI & trust'],['flags','Member flagging','Report spam or AI-generated replies','🚩','AI & trust']];
+const TPL=[{k:'support',ic:'🛟',n:'Customer support community',d:'Answers, validated solutions, AI flagging',on:['cats','kb','tl','flags','aiDetect','disclose','summary','polls','ideas','video','notes','board','connections'],cats:['Getting started','Troubleshooting','Account & billing','How-to']},
+ {k:'fan',ic:'🏃',n:'Brand fan community',d:'Leaderboard, badges, chat, connections',on:['cats','kb','tl','badges','board','chat','connections','polls','notes','flags','aiDetect','disclose'],cats:['Announcements','Training tips','Gear talk','Member stories']},
+ {k:'feedback',ic:'💡',n:'Product feedback hub',d:'Ideas, voting and a loop to product',on:['cats','kb','ideas','polls','summary','flags','notes','tl','aiDetect','disclose','connections'],cats:['Feature requests','Bugs','Roadmap','Shipped']},
+ {k:'help',ic:'📚',n:'Help centre with community',d:'Knowledge base first, community second',on:['cats','kb','summary','flags','video','tl','notes','aiDetect','disclose','connections'],cats:['Syncing & Apple Health','Sizing & fit','Rewards & streaks','Returns & orders']}];
+const COL=['#fa5400','#0176d3','#2e844a','#c23934','#6b5bd2','#181818','#d4a017','#0b827c'],CC=['#1264a3','#2eb67d','#c58a00','#e01e5a'];
+let C={name:'Nike Member Community',primary:'#fa5400',tpl:'help',on:{},cats:[],loop:{mode:'auto',n:100}},stage=0;
+const col=()=>$('col'),sc=()=>$('msgs').scrollTop=1e9;
+function add(h,c){const d=document.createElement('div');d.className=c;d.innerHTML=h;col().appendChild(d);sc();return d}
+const A=h=>add(h,'a'),U=t=>add(esc(t),'u');
+function dock(title,body){$('qc').innerHTML=body?`<div class="qc"><div class="qh"><b>${title}</b><span onclick="$('qc').innerHTML=''">✕</span></div>${body}</div>`:''}
+const ops=(a)=>a.map(o=>`<div class="op ${o.on?'on':''} ${o.else?'else':''}" onclick="${o.f}"><span class="oi">${o.i}</span><div><b>${o.t}</b>${o.d?`<small>${o.d}</small>`:''}</div>${o.cb?'<span class="cb">'+(o.on?'✓':'')+'</span>':''}</div>`).join('');
+function applyTpl(k){const t=TPL.find(x=>x.k===k);C.on={};t.on.forEach(f=>C.on[f]=1);C.cats=[...t.cats]}
+function nameFrom(t){const m=t.match(/(?:for|called|named|brand|company)\s+([A-Z][\w&']+(?:\s[A-Z][\w&']+)?)/);return m?m[1]:/nike/i.test(t)?'Nike':null}
+function start(){stage=0;col().innerHTML='';A('<div class="tool">Loaded portal setup tools ▸</div><p>Hi there! 👋 I\'m your Setup Assistant. I\'ll set up your community step by step. Here\'s how it works:</p><ol><li><b>Goal:</b> you tell me what you want to build.</li><li><b>Set up:</b> we pick a template, colours and features together.</li><li><b>Check:</b> I review everything with you before you publish.</li></ol><p>You stay in control throughout.</p>');
+ add('<span onclick="ex(\'What is a community template?\')">What is a template?</span><span onclick="ex(\'What are trust levels?\')">What are trust levels?</span>','sug');askGoal()}
+function ex(q){U(q);setTimeout(()=>A(/trust/i.test(q)?'Trust levels (borrowed from Discourse) unlock privileges as members contribute. New members can read and post. At 20 points they can flag and vote in polls, and higher levels help moderate.':'A template is a starting set of categories and features for a goal, like a support community or a feedback hub. You can change every part afterwards.'),300)}
+function askGoal(){dock('What would you like to build?',ops([{i:'🏃',t:'Help runners fix app sync problems',d:'Nike Run Club + Apple Health',f:"goal('Help Nike Run Club members fix sync problems and get answers from other runners')"},{i:'👟',t:'A fan community for Adidas',d:'Training tips and member stories',f:"goal('Build a fan community for Adidas where members share training tips')"},{i:'💡',t:'Collect product feedback',d:'Ideas and votes sent to product',f:"goal('Collect product feedback from customers and send the top ideas to product')"},{i:'✏️',t:'Describe your own goal',else:1,f:"$('in').focus()"}]))}
+function goal(t){U(t);setGoal(t)}
+function setGoal(t){const n=nameFrom(t);if(n)C.name=n+' Member Community';const g=/feedback|idea/i.test(t)?'feedback':/fan|share|tips/i.test(t)?'fan':/help|fix|problem|support/i.test(t)?'help':'help';C.tpl=g;applyTpl(g);stage=1;live();
+ setTimeout(()=>{A(`<p>Got it. I'll call it <b>${esc(C.name)}</b>. Now pick a template to start from.</p>`);askTpl()},350)}
+function askTpl(){dock('Which template fits best?',ops(TPL.map(t=>({i:t.ic,t:t.n,d:t.d,on:t.k===C.tpl,f:`pick('${t.k}')`}))))}
+function pick(k){C.tpl=k;applyTpl(k);live();U(TPL.find(x=>x.k===k).n);stage=2;setTimeout(()=>{A('<p>Good choice. What colours should it use? Trust labels keep their own colours so they stay recognisable.</p>');askCol()},300)}
+function askCol(){dock('Pick a primary colour',`<div class="dots" id="dots">${COL.map(c=>`<div class="dot ${c===C.primary?'on':''}" style="background:${c}" onclick="setCol('${c}')"></div>`).join('')}<input type="color" value="${C.primary}" oninput="C.primary=this.value" title="Custom colour"></div><button class="cont" onclick="doneCol()">Continue</button>`)}
+function setCol(c){C.primary=c;stage=Math.max(stage,2);live();askCol()}
+function doneCol(){U('Primary colour '+C.primary);stage=3;live();setTimeout(()=>{A('<p>Last choice: which features do you want? I\'ve selected the ones that suit this template. Tap to add or remove, then continue.</p>');askFeat()},300)}
+function askFeat(){let g='';dock('Choose your feature sets',FEAT.map(f=>{const h=f[4]!==g?(g=f[4],`<div style="padding:8px 17px 2px;font-size:11px;letter-spacing:.06em;color:var(--mut);border-top:1px solid #f0eeea">${g.toUpperCase()}</div>`):'';return h+ops([{i:f[3],t:f[1],d:f[2],on:C.on[f[0]],cb:1,f:`tf('${f[0]}')`}])}).join('')+'<button class="cont" onclick="doneFeat()">Continue</button>');$('qc').querySelector('.qc').style.maxHeight='46vh';$('qc').querySelector('.qc').style.overflow='auto'}
+function tf(k){C.on[k]=C.on[k]?0:1;live();const y=$('qc').firstChild.scrollTop;askFeat();$('qc').firstChild.scrollTop=y}
+function preview(){return `<div class="card"><div class="bar" style="background:${C.primary}">${esc(C.name)}</div><div class="hr" style="background:${C.primary}"><b>Welcome to ${esc(C.name)}</b></div><div class="bd">${C.cats.map((c,i)=>`<span class="pc" style="background:${CC[i%4]}22;color:${CC[i%4]}">${esc(c)}</span>`).join('')}<div style="margin-top:6px">${FEAT.filter(f=>C.on[f[0]]).map(f=>`<span class="pf">${f[1]}</span>`).join('')}</div></div></div>`}
+function doneFeat(){const n=Object.values(C.on).filter(Boolean).length;U(n+' features selected');dock('');setTimeout(()=>{A('<p>One more thing that keeps your knowledge fresh. When many members ask the same question, it usually means the knowledge base is missing something. How should I handle repeated questions?</p>');askLoop()},300)}
+function askLoop(){dock('When questions are asked repeatedly…',ops([{i:'🔁',t:'Highlight to admin, draft a KB article and add to product feedback',d:'Fully automatic. Admin reviews before anything is published',on:C.loop.mode==='auto',f:"setLoop('auto')"},{i:'🔔',t:'Highlight to admin only',d:'Admin decides what to do',on:C.loop.mode==='hl',f:"setLoop('hl')"},{i:'⏸',t:'Do not track repeated questions',on:C.loop.mode==='off',f:"setLoop('off')"}])+'<button class="cont" onclick="askN()">Continue</button>')}
+function setLoop(m){C.loop.mode=m;askLoop()}
+function askN(){const m=C.loop.mode;U({auto:'Highlight, draft KB and add to feedback',hl:'Highlight to admin only',off:'Do not track'}[m]);if(m==='off'){return review()}
+ dock('After how many members ask the same question?',ops([25,50,100,200].map(n=>({i:'👥',t:n+' members',d:n===100?'Recommended for a busy community':'',on:C.loop.n===n,f:`setN(${n})`}))))}
+function setN(n){C.loop.n=n;U(n+' members');review()}
+function review(){dock('');stage=4;live();setTimeout(()=>{A(`<p>Here's your community. I'll also connect the Help Agent to Knowledge. ${C.loop.mode==='off'?'Repeated questions are not tracked.':'Repeated questions ('+C.loop.n+'+ members) are highlighted to the admin'+(C.loop.mode==='auto'?', drafted into the knowledge base and added to product feedback.':'.')}</p>${preview()}<button class="go" onclick="activate(this)">Activate community</button><button class="go n" onclick="start()">Start over</button>`)},300)}
+function activate(b){b.parentNode.querySelectorAll('button').forEach(x=>x.style.display='none');U('Activate');save();$('lt').textContent='publishing';const L=['Create site “'+C.name+'”','Apply brand colour '+C.primary,'Connect Help Agent with Knowledge','Enable '+Object.values(C.on).filter(Boolean).length+' features','Create '+C.cats.length+' categories','Turn on AI flagging'+(C.loop.mode==='off'?'':' and repeated-question loop'),'Publish'];
+ const d=A('<div class="run" id="run"></div>');let i=0;const t=setInterval(()=>{if(i>=L.length){clearInterval(t);$('lt').textContent='live';$('lb').style.padding=0;$('lb').innerHTML='<iframe src="nike-community.html?embed=1&src=website"></iframe>';A('<p><b>Your community is live.</b> Open it to see your settings applied.</p><button class="go" onclick="parent.postMessage({type:\'nk-open-community\'},location.origin)">Open the community</button>');return}$('run').insertAdjacentHTML('beforeend','<div class="d">'+esc(L[i])+'</div>');i++;sc();stage=4;live()},420)}
+function save(){const f={};FEAT.forEach(x=>f[x[0]]=C.on[x[0]]?1:0);delete f.aiDetect;delete f.disclose;localStorage.setItem('nkcfg',JSON.stringify({loop:{on:C.loop.mode!=='off'?1:0,n:C.loop.n,autoKB:C.loop.mode==='auto'?1:0,autoFb:C.loop.mode==='auto'?1:0},name:C.name,primary:C.primary,greeting:'Get instant answers from our knowledge base and fellow members',cats:C.cats.map((l,i)=>({k:['sync','size','rewards','returns'][i]||'c'+i,l,c:CC[i%4]})),f,mod:{flagN:3,aiSpam:C.on.aiDetect?1:0,disclose:C.on.disclose?1:0}}));try{parent.postMessage({type:'nk-cfg-saved'},location.origin)}catch(e){}}
+function send(){const v=$('in').value.trim();if(!v)return;$('in').value='';U(v);
+ if(stage===0){setGoal(v);return}
+ const hx=v.match(/#[0-9a-f]{6}/i),nm=nameFrom(v);let r=[];if(hx){C.primary=hx[0];r.push('colour '+hx[0])}if(nm){C.name=nm+' Member Community';r.push('name '+C.name)}
+ const off=v.toLowerCase().match(/(?:no|without|remove)\s+(\w+)/);if(off){const f=FEAT.find(x=>x[1].toLowerCase().includes(off[1]));if(f){C.on[f[0]]=0;r.push('removed '+f[1])}}
+ setTimeout(()=>{A(r.length?'Updated: '+esc(r.join(', '))+'.':'I can change the name (“for Adidas”), a colour (#0176d3), or remove a feature (“no video”).');if(stage===2)askCol();if(stage===3)askFeat()},250)}
+
+const NAVF={cats:'Topics',board:'Leaderboard',badges:'Badges',chat:'Chat',ideas:'Ideas',video:'Videos',polls:'Polls'};
+const FEED=[['Runs not syncing to Apple Health','214 asked · validated answer'],['Which Pegasus size for wide feet?','38 replies · AI answer flagged'],['Streak reset after travel','Solved by Tasha Obi']];
+function live(build){const lb=$('lb');if(!lb)return;const nav=Object.keys(NAVF).filter(k=>C.on[k]);const sk=(n)=>Array(n).fill('<div class="sk"></div>').join('');
+ lb.innerHTML=`<div class="site"><div class="stop" style="background:${stage>=2?C.primary:'#999'}"><span>${stage>=1?esc(C.name):'…'}</span></div>
+ ${stage>=3?`<div class="snav"><span>Home</span><span>Knowledge base</span>${nav.map(k=>`<span>${NAVF[k]}</span>`).join('')}</div>`:''}
+ <div class="shero" style="background:${stage>=2?C.primary:'#ccc'}">${stage>=1?'<b>Welcome to '+esc(C.name)+'</b>':sk(2)}</div>
+ <div class="sbd">${stage>=1?`<div>${C.cats.map((c,i)=>`<span class="pc" style="background:${CC[i%4]}22;color:${CC[i%4]}">${esc(c)}</span>`).join('')}</div>`:sk(1)}
+ ${stage>=1?FEED.map(x=>`<div class="fd"><b>${x[0]}</b><small>${x[1]}${C.on.tl?' · TL1':''}</small></div>`).join(''):sk(5)}
+ ${stage>=3&&C.on.badges?'<div class="fd">🏅 Badges: First Post, Helpful, Solver</div>':''}${stage>=3&&C.on.flags?'<div class="fd">🚩 Flagging and AI checks on</div>':''}${stage>=3&&C.on.summary?'<div class="fd">✨ AI summaries on long threads</div>':''}</div></div>
+ <div class="step">${['Waiting for your goal','Site and categories added','Brand colour applied','Features added','Review'][Math.min(stage,4)]}</div>`}
+applyTpl('help');start();live();
+</script></body></html>
