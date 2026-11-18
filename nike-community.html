@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Nike Member Community – single-page prototype</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--aub:#3f0e40;--aub2:#350d36;--bd:#e0e0e0;--mut:#616061;--blue:#1264a3;--grn:#007a5a;--org:#fa5400;--txt:#1d1c1d}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 system-ui,-apple-system,sans-serif;color:var(--txt);height:100vh;display:flex;flex-direction:column}
+button,input,textarea,select{font:inherit}
+.top{background:var(--aub2);color:#fff;display:flex;gap:10px;align-items:center;padding:7px 14px;font-size:12px;flex-wrap:wrap}
+.top .s{flex:1;max-width:340px;margin:auto;background:#ffffff26;border-radius:6px;padding:4px 12px;color:#ffffffcc}
+.me{background:#fff;color:var(--txt);border-radius:14px;padding:2px 10px;font-weight:600}
+.app{flex:1;display:flex;min-height:0}
+.rail{width:60px;background:var(--aub2);display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:12px;color:#fff;flex:none}
+.rail i{font-style:normal;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:#ffffff1f}
+.side{width:220px;background:var(--aub);color:#ffffffcc;padding:12px 0;flex:none;overflow:auto}
+.side h4{margin:14px 16px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#fff9}
+.side a{display:flex;justify-content:space-between;padding:4px 16px;cursor:pointer}.side a:hover{background:#ffffff14}.side a.on{background:var(--blue);color:#fff}
+.main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 290px;min-width:0;overflow:hidden}
+.col{overflow:auto;padding:16px 20px}.right{border-left:1px solid var(--bd);overflow:auto;padding:12px;background:#fafafa}
+.hero{border-radius:10px;padding:16px;color:#fff;background:linear-gradient(110deg,#111,#444 60%,var(--org));margin-bottom:12px;text-align:center}
+.card{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:12px;margin-bottom:12px}
+.btn{background:var(--grn);color:#fff;border:0;border-radius:6px;padding:5px 12px;font-weight:600;cursor:pointer}.btn.s{background:#fff;color:var(--txt);border:1px solid #bbb;font-weight:500}.btn.o{background:var(--org)}.btn.sm{padding:2px 9px;font-size:12px}.btn.bad{background:#b3123a}.btn:disabled{opacity:.5;cursor:default}
+.meta{font-size:12px;color:var(--mut)}.tag{display:inline-block;font-size:11px;border-radius:4px;padding:0 6px;margin:0 4px 2px 0;background:#eef;color:#336}
+.g{background:#e1f5ee;color:var(--grn)}.y{background:#fff4d6;color:#8a6100}.ai{background:#f3e8f7;color:#611f69}.r{background:#fde5ec;color:#b3123a}.b{background:#e8f5fa;color:var(--blue)}.or{background:#ffe9dc;color:#b33c00}
+.post{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee}.post:last-child{border:0}
+.av{width:34px;height:34px;border-radius:6px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;flex:none}
+.row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;gap:8px}
+.chip{font-size:12px;border:1px solid var(--bd);border-radius:14px;padding:2px 10px;cursor:pointer;background:#fff}.chip.on{background:#e8f5fa;border-color:var(--blue);color:var(--blue)}
+.ov{position:fixed;inset:0;background:#0007;display:none;place-items:center;z-index:20}.ov.on{display:grid}.modal{background:#fff;border-radius:10px;padding:18px;width:min(460px,92vw)}
+textarea,.in{width:100%;border:1px solid #bbb;border-radius:6px;padding:7px 10px}
+.entry{background:#fff;max-width:700px;margin:20px auto;border:1px solid var(--bd);border-radius:12px;padding:20px}
+.reply{display:flex;gap:10px;padding:10px;border-radius:8px;margin:8px 0;border:1px solid transparent}.reply.best{background:#f1fbf6;border-color:#bfe6d2}.reply.ai{background:#faf7ff;border-color:#e3d8fb}.reply.flag{background:#fff5f8;border-color:#f3c3d0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1d1c1d;color:#fff;border-radius:8px;padding:8px 16px;opacity:0;transition:.25s;pointer-events:none;z-index:40;max-width:90vw}.toast.show{opacity:1}
+.stage{background:#111;border-radius:10px;color:#fff;overflow:hidden}.scene{height:230px;display:grid;place-items:center;background:linear-gradient(160deg,#1c1c1c,#2b2b2b)}
+.phone{width:140px;height:210px;border:4px solid #ddd;border-radius:22px;background:#fff;color:#111;padding:10px;font-size:11px;position:relative}
+.prow{padding:6px;border-radius:6px;margin:4px 0;background:#f2f2f2;display:flex;justify-content:space-between;align-items:center}.hl{outline:2px solid var(--org);background:#fff1e8}
+.tog{width:26px;height:14px;border-radius:8px;background:#bbb;position:relative;transition:.5s}.tog.on{background:#34c759}.tog:after{content:'';position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:#fff;transition:.5s}.tog.on:after{left:14px}
+.cap{padding:8px 12px;background:#000;font-size:13px;min-height:42px}.bar{height:5px;background:#444;cursor:pointer}.bar>div{height:100%;background:var(--org)}
+.pipe{display:flex;gap:6px;margin:8px 0}.pipe div{flex:1;border-radius:6px;padding:6px;font-size:12px;background:#f2f2f2;text-align:center}.pipe .done{background:#e1f5ee;color:var(--grn)}.pipe .cur{background:#fff4d6}
+.prog{height:8px;background:#eee;border-radius:5px}.prog>div{height:100%;background:var(--org);border-radius:5px;transition:.2s}
+.emb .top,.emb .rail{display:none}.emb .side{width:170px}.emb body,body.emb{height:100vh}
+@media(max-width:1000px){.main{grid-template-columns:1fr}.right{display:none}.side{display:none}}
+</style></head><body>
+<div class="top"><b>Nike Member Community</b><div class="s">Search the community</div>
+ <span class="me" id="mechip"></span><span>View as:</span><button class="btn s sm" id="roleb" onclick="toggleRole()"></button><button class="btn s sm" onclick="restart()">↺ Restart</button></div>
+<div class="app"><nav class="rail"><i>🏠</i><i>💬</i><i>🔔</i><i>🔖</i><i style="background:#fff3">✨</i><i>⋯</i></nav><nav class="side" id="side"></nav>
+ <section class="main"><div class="col" id="col"></div><aside class="right" id="right"></aside></section></div>
+<div id="entryv" style="display:none;position:fixed;inset:0;z-index:15;overflow:auto;background:#f5f5f5"></div>
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div><div class="toast" id="toast"></div>
+<script>
+const $=i=>document.getElementById(i),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const QP=new URLSearchParams(location.search),SRC=QP.get('src')||'',ME=SRC==='chatgpt'?'Jordan Lee':'Alex Chen',COL=['#e01e5a','#2eb67d','#ecb22e','#36c5f0','#611f69','#1264a3'];
+const QUESTION='My Nike Run Club runs are not syncing to Apple Health. Anyone know why?';
+/* ILLUSTRATIVE content for a prototype. Not Nike's real policies or support answers. */
+const MEM0=()=>({[ME]:{role:'Member',badge:'Newcomer',pts:SRC==='chatgpt'?0:20},...(SRC==='chatgpt'?{'Sam Rivera':{role:'Member',badge:'Question Master',pts:30,topics:[]}}:{}),'Coach Maya':{role:'Run Club Coach · Nike',badge:'Pace Setter',pts:480,staff:1},'Dev Anand':{role:'Run Club Leader',badge:'Gear Guru',pts:310,topics:['size','fit','pegasus','wide','rain','shoe']},'Tasha Obi':{role:'Marathon runner',badge:'Marathon Mentor',pts:262,topics:['sync','health','app','apple','marathon','vaporfly']},'Leo Park':{role:'Member',badge:'Question Master',pts:44,topics:['rewards','streak']},'Sara Parras':{role:'Member',badge:'Trail Guide',pts:138,topics:['rain','trail']},'PromoBot':{role:'New account · 1 day old',badge:'Newcomer',pts:0,bot:1}});
+const KB0=()=>[{t:'Run Club: sync runs to Apple Health',rx:'sync|health|apple',body:'On iPhone open Settings > Privacy & Security > Health > Nike Run Club and turn on Workouts. Update the app, sign out and back in, then wait a few minutes.'},
+ {t:'Choosing your size',rx:'size|sizing|fit|wide',body:'Fit varies by model. Compare with a pair you already own and use the size guide for the specific model.'}];
+const VID0=()=>({sync:{status:'ready',verified:true,pct:100},size:{status:'none'}});
+const VIDEOS={sync:{title:'Fix: runs not syncing to Apple Health',src:['KB: Run Club sync','Accepted answer by Tasha Obi'],steps:[
+ {t:'Open Health permissions',cap:'On your iPhone open Settings, Privacy & Security, then Health.',vis:'p0'},
+ {t:'Turn on Workouts',cap:'Select Nike Run Club and switch Workouts on.',vis:'p1'},
+ {t:'Update and sign in again',cap:'Update the app in the App Store, then sign out and sign back in.',vis:'login'},
+ {t:'Confirm in Apple Health',cap:'Wait a few minutes. Your run should now appear in Health.',vis:'done'}]},
+ size:{title:'How to find your fit at home',src:['KB: Choosing your size','Top-voted reply by Dev Anand'],steps:[
+ {t:'Pick a reference pair',cap:'Choose a shoe you already own and like.',vis:'shoe'},{t:'Measure your foot',cap:'Stand on paper in the evening and mark heel and toe.',vis:'measure'},{t:'Compare to the size guide',cap:'Match the length to the model’s size guide, and note wide-fit notes from members.',vis:'guide'}]}};
+const SEED=()=>({view:'entry',role:'member',filter:'All',fmt:'Text',nid:50,src:'ChatGPT',open:null,conn:{},mem:MEM0(),kb:KB0(),vid:VID0(),log:[],hv:{},exp:{},tf:'All',incoming:['Leo Park'],dms:{},chat:null,huddle:null,sent:{},drafts:{},routed:{},voted:{},
+ posts:[
+ {id:1,type:'q',u:SRC==='chatgpt'?'Sam Rivera':'Alex Chen',t:'My Nike Run Club runs are not syncing to Apple Health. Anyone know why?',b:'Runs recorded yesterday do not appear in Health.',topic:'sync',asks:214,age:'just now',solved:false,replies:[
+  {id:1,u:'Tasha Obi',role:'member',up:3,b:'Check Health permissions: Settings > Privacy & Security > Health > Nike Run Club and make sure Workouts is on.'},
+  {id:2,u:'Dev Anand',role:'member',up:1,b:'Also update the app and sign out and in again. A delayed sync can take a few minutes.'}]},
+ {id:2,type:'q',u:'Leo Park',t:'Do Pegasus run true to size for wide feet?',b:'Thinking of a half size up.',topic:'size',asks:163,age:'2d',solved:false,replies:[
+  {id:3,u:'Dev Anand',role:'member',b:'I went half a size up for the wider midfoot. Try in the evening when feet are largest.'},
+  {id:4,u:'AI assistant',role:'ai',b:'All models run exactly true to size, so you never need to size up.',flag:{why:'Contradicts size guidance: fit varies by model',state:'pending'}}]},
+ {id:3,type:'q',u:'Leo Park',t:'How do I redeem Run Club streak rewards?',b:'I hit a 30-day streak but see no reward.',topic:'rewards',asks:120,age:'1d',solved:false,replies:[]},
+ {id:9,type:'q',u:'PromoBot',t:'What are the top 10 best running shoes in 2026? Please provide a comprehensive overview.',b:'Please provide a comprehensive overview of the best shoes for every runner.',topic:'general',asks:3,age:'1h',aiPost:{why:'Listicle and prompt-style wording from a brand-new account',state:'pending'},replies:[]},
+ {id:4,type:'q',u:'Sara Parras',t:'Can I return shoes bought with a gift receipt?',b:'Received a pair as a gift.',topic:'returns',asks:88,age:'3d',solved:false,replies:[]},
+ {id:5,type:'q',u:'Tasha Obi',t:'Are trail shoes OK for wet road runs in the rain?',b:'Training through autumn.',topic:'rain',asks:57,age:'4d',solved:false,replies:[]},
+ {id:6,type:'idea',u:'Tasha Obi',t:'Voice alerts for heart-rate zones during runs',b:'Hard to look at the screen mid-run.',topic:'app',votes:99,status:'Under review',cat:'App',age:'1w',replies:[]},
+ {id:7,type:'idea',u:'Dev Anand',t:'Wider toe box option for race shoes',b:'Many of us size up just for width.',topic:'size',votes:64,status:'Under review',cat:'Product',age:'2w',replies:[]},
+ {id:8,type:'idea',u:'Sara Parras',t:'Show streak rewards inside the run summary',b:'Make rewards visible after each run.',topic:'rewards',votes:51,status:'Shipped',cat:'App',age:'2mo',replies:[]}]});
+const KEY='nk4'+(SRC?'-'+SRC:'');
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||SEED();const save=()=>localStorage.setItem(KEY,JSON.stringify(S));
+const staff=()=>S.role==='staff',pending=x=>x.flag&&x.flag.state==='pending';
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),2800)}
+const lvl=p=>p>=300?'Pace Setter':p>=100?'Gear Guru':p>=40?'Helper':'Newcomer';
+function badge(n){const m=S.mem[n];if(!m)return'';return n===ME?lvl(m.pts):m.badge}
+function award(n,pts,why){if(!S.mem[n])S.mem[n]={role:'Member',badge:'Newcomer',pts:0};S.mem[n].pts+=pts;S.log.unshift({n,pts,why});S.log=S.log.slice(0,8);if(n===ME)toast('+'+pts+' points: '+why)}
+function board(){return Object.keys(S.mem).filter(n=>!S.mem[n].bot).map(n=>({n,pts:S.mem[n].pts,role:S.mem[n].role,badge:badge(n)})).sort((a,b)=>b.pts-a.pts)}
+const rank=()=>board().findIndex(x=>x.n===ME)+1;
+const av=n=>`<div class="av" style="background:${COL[n.length%6]}">${n.split(/[ .]/).map(x=>x[0]).join('').slice(0,2)}</div>`;
+const who=n=>{const m=S.mem[n]||{};return `<b>${esc(n)}</b> ${m.staff?'<span class="tag or">Nike staff</span>':''}<span class="tag g">${badge(n)}</span><span class="meta">${m.pts||0} pts</span>`};
+function toggleRole(){S.role=staff()?'member':'staff';if(!staff()&&['admin','studio'].includes(S.view))S.view='home';save();render()}
+function restart(){if(confirm('Reset the demo?')){localStorage.removeItem(KEY);S=SEED();render()}}
+function go(v,o){S.view=v;if(o!==undefined)S.open=o;save();render()}
+function match(t){t=(t||'').toLowerCase();return Object.keys(S.mem).filter(n=>n!==ME&&!S.mem[n].staff).map(n=>({n,s:(S.mem[n].topics||[]).filter(x=>t.includes(x)).length})).filter(x=>x.s).sort((a,b)=>b.s-a.s).map(x=>x.n)}
+const kbFor=t=>S.kb.filter(k=>new RegExp(k.rx).test(t.toLowerCase()));
+const verified=p=>p.replies.some(r=>(r.role==='staff'||r.val||r.best||(r.up||0)>=3)&&!pending(r)&&r.role!=='ai')||kbFor(p.t+' '+p.topic).length>0;
+const EMBED=/[?&]embed=1/.test(location.search);if(EMBED)document.body.classList.add('emb');
+function render(){if(EMBED&&S.view==='entry'){S.view=QP.get('view')||'home';if(QP.get('open'))S.open=+QP.get('open')}
+ $('roleb').textContent=staff()?'Nike staff (admin)':'Member';
+ const m=S.mem[ME];$('mechip').textContent=`🏅 #${rank()} · ${m.pts} pts · ${lvl(m.pts)}`;
+ $('entryv').style.display=S.view==='entry'?'block':'none';if(S.view==='entry'){$('entryv').innerHTML=entry();return}
+ const nav=[['home','Chat'],['hot','Hot discussions'],['network','Connections'],['ideas','Ideas & feedback'],['kb','Knowledge base'],['board','Leaderboard']].concat(staff()?[['admin','Admin insights'],['studio','Video studio']]:[]);
+ $('side').innerHTML='<h4>Community</h4>'+nav.map(([k,l])=>`<a class="${S.view===k||(S.view==='thread'&&k==='home')?'on':''}" onclick="go('${k}')"># ${l}</a>`).join('')+'<h4>Connections</h4>'+(Object.keys(S.conn).map(n=>`<a onclick="msg('${n}')">${n} <span>${S.conn[n]==='pending'?'⏳':'●'}</span></a>`).join('')||'<a style="opacity:.6">None yet</a>');
+ $('col').innerHTML=({home,hot,network,ideas,kb,board:boardV,admin,studio,thread})[S.view]();$('right').innerHTML=rightRail();paintVideo();if(parent!==window)parent.postMessage({type:'nk',rank:rank(),pts:m.pts,role:S.role,lvl:lvl(m.pts)},'*')}
+addEventListener('message',e=>{if(e.origin!==location.origin)return;const d=e.data||{};if(d.type==='nk-role'){S.role=d.role;if(!staff()&&['admin','studio'].includes(S.view))S.view='home';save();render()}if(d.type==='nk-go'){if(d.fmt)S.fmt=d.fmt;S.view=d.view;if(d.open!==undefined)S.open=d.open;save();render()}});
+/* ---------- entry ---------- */
+function entry(){return `<div class="entry"><div class="meta">Step 1 · A runner asks outside the community</div>
+ <div style="display:flex;gap:6px;margin:8px 0">${['ChatGPT','Google','Help Center'].map(x=>`<span class="chip ${S.src===x?'on':''}" onclick="S.src='${x}';render()">${x}</span>`).join('')}</div>
+ <div style="background:#f4f4f4;border-radius:12px;padding:10px 14px;margin-left:auto;max-width:85%">${esc(QUESTION)}</div>
+ <p><b>Common reasons Nike Run Club runs do not appear in Apple Health:</b></p>
+ <div class="card"><b>1. Permissions</b><div class="meta">Workouts access may be off.</div>✅ Fix: enable Workouts for the app in Health settings.</div>
+ <div class="card"><b>2. App version or sign-in</b><div class="meta">An old build or stale session can block sync.</div>✅ Fix: update, sign out, sign in.</div>
+ <div class="card"><b>3. Sync delay</b><div class="meta">Data can take a few minutes.</div>✅ Fix: wait, then reopen Health.</div>
+ <p><b>Get help from the <a href="#" onclick="go('home');return false" style="color:var(--blue)">Nike Member Community</a>: peers, coaches and a step-by-step video.</b></p>
+ <button class="btn o" onclick="go('home')">Open the community →</button>
+ <div class="meta" style="margin-top:10px">Illustrative prototype content for a Nike use case. Not official Nike policy or support answers.</div></div>`}
+/* ---------- video ---------- */
+let P={topic:null,step:0,t:0,playing:false,speed:1,cc:true,done:false};let tick=null;
+function scene(v){const ph=c=>`<div class="phone">${c}</div>`,row=(l,h,t)=>`<div class="prow ${h?'hl':''}"><span>${l}</span>${t===undefined?'':`<span class="tog ${t?'on':''}"></span>`}</div>`;
+ if(v==='p0')return ph('<b>Health</b>'+row('Data Access',1)+row('Sources')+row('Devices'));
+ if(v==='p1')return ph('<b>Nike Run Club</b>'+row('Workouts',1,P.t>1.5)+row('Heart Rate',0,1)+row('Steps',0,0));
+ if(v==='login')return ph('<b>Nike Run Club</b>'+row('Update available ⬇',1)+row('Sign out')+row('Sign in'));
+ if(v==='done')return ph('<b>Health · Workouts</b>'+'<div class="prow hl"><span>🏃 5.2 km run</span><span>✓</span></div>'+row('Synced just now'));
+ if(v==='shoe')return '<div style="font-size:90px">👟</div>';if(v==='measure')return '<div style="font-size:70px">📏🦶</div>';if(v==='guide')return '<div style="background:#fff;color:#111;padding:12px;border-radius:8px;font-size:12px"><b>Size guide</b><div>26.0 cm → US 8</div><div class="hl" style="padding:2px">26.5 cm → US 8.5</div><div>27.0 cm → US 9</div></div>';return''}
+function vplayer(topic){const v=VIDEOS[topic],st=S.vid[topic]||{status:'none'};
+ if(!v)return '<div class="meta">No video for this topic yet.</div>';
+ if(st.status==='none')return `<div class="card" style="background:#fafafa">🎬 No troubleshooting video yet for this topic.<br><button class="btn o sm" style="margin-top:6px" onclick="startRender('${topic}')">${staff()?'Render video':'Request a video'}</button></div>`;
+ if(st.status==='rendering')return `<div class="card">🎬 Rendering “${v.title}”…<div class="prog"><div style="width:${st.pct}%"></div></div><div class="meta">${stageName(st.pct)} · ${st.pct}%</div></div>`;
+ if(P.topic!==topic){P={topic,step:0,t:0,playing:false,speed:1,cc:true,done:false}}
+ return `<div class="stage"><div class="scene" id="vscene"></div><div class="cap" id="vcap"></div><div class="bar" id="vbarw" onclick="seek(event,'${topic}')"><div id="vbar"></div></div>
+ <div style="display:flex;gap:8px;align-items:center;padding:6px 10px;font-size:12px"><button class="btn sm o" id="vpp" onclick="playPause()">▶ Play</button><button class="btn s sm" onclick="P.speed=P.speed===1?1.5:P.speed===1.5?2:1;paintVideo()">${P.speed}×</button><button class="btn s sm" onclick="P.cc=!P.cc;paintVideo()">CC</button><span id="vtime" style="margin-left:auto"></span></div></div>
+ <div class="meta" style="margin:6px 0">${st.verified?'<span class="tag g">✓ Reviewed by Nike staff</span>':'<span class="tag ai">✨ AI-generated · awaiting staff review</span>'} Generated from: ${v.src.map(esc).join(' · ')}</div>
+ <div>${v.steps.map((s,i)=>`<span class="chip ${P.step===i?'on':''}" onclick="jump(${i})">${i+1}. ${s.t}</span>`).join(' ')}</div>
+ <div style="margin-top:8px" id="vfb"></div>`}
+function paintVideo(){const sc=$('vscene');if(!sc||!P.topic)return;const v=VIDEOS[P.topic];if(!v)return;const s=v.steps[Math.min(P.step,v.steps.length-1)];
+ sc.innerHTML=scene(s.vis);$('vcap').textContent=P.cc?`Step ${P.step+1}/${v.steps.length}: ${s.cap}`:'';
+ const tot=v.steps.length*4,cur=P.step*4+P.t;$('vbar').style.width=Math.min(100,cur/tot*100)+'%';$('vtime').textContent=`0:${String(Math.floor(cur)).padStart(2,'0')} / 0:${String(tot).padStart(2,'0')}`;$('vpp').textContent=P.playing?'⏸ Pause':P.done?'↺ Replay':'▶ Play';
+ const fb=$('vfb');if(fb)fb.innerHTML=P.done?`<div class="card" style="background:#f1fbf6">Did this fix it? <button class="btn sm" onclick="videoFixed()">Yes, it worked</button> <button class="btn s sm" onclick="toast('Thanks. Routed to a Coach to follow up');escalateTopic()">No, I need help</button></div>`:''}
+function playPause(){if(P.done){P.step=0;P.t=0;P.done=false}P.playing=!P.playing;clearInterval(tick);if(P.playing)tick=setInterval(()=>{const v=VIDEOS[P.topic];P.t+=0.1*P.speed;if(P.t>=4){P.t=0;P.step++;if(P.step>=v.steps.length){P.step=v.steps.length-1;P.t=3.99;P.playing=false;P.done=true;clearInterval(tick)}}paintVideo()},100);paintVideo()}
+function jump(i){P.step=i;P.t=0;P.done=false;paintVideo()}
+function seek(e,t){const r=$('vbarw').getBoundingClientRect(),f=(e.clientX-r.left)/r.width,v=VIDEOS[t],tot=v.steps.length*4,c=f*tot;P.step=Math.min(v.steps.length-1,Math.floor(c/4));P.t=c%4;P.done=false;paintVideo()}
+function videoFixed(){const p=S.posts.find(x=>x.topic===P.topic&&x.type==='q');if(p){p.solved=true}award(ME,5,'resolved with the video');save();render();toast('Marked resolved. Nike sees this video deflected a case')}
+function escalateTopic(){const p=S.posts.find(x=>x.topic===P.topic&&x.type==='q');if(p&&S.sent[p.id]===undefined)S.sent[p.id]='escalated';save()}
+const STAGES=['Writing script from sources','Building scenes from product screens','Generating voiceover','Rendering and adding captions'];
+const stageName=p=>STAGES[Math.min(3,Math.floor(p/25))];
+function startRender(t){S.vid[t]={status:'rendering',pct:0};save();render();const h=setInterval(()=>{const s=S.vid[t];s.pct+=5;if(s.pct>=100){s.pct=100;s.status='ready';s.verified=false;clearInterval(h);toast('Video ready. It is labelled AI-generated until staff review it')}save();render()},250);toast(staff()?'Render started':'Video requested. It will be AI-generated and labelled')}
+/* ---------- feed pieces ---------- */
+function postHtml(p){const ex=S.exp[p.id];return `<div class="post">${av(p.u)}<div style="flex:1"><b style="cursor:pointer" onclick="go('thread',${p.id})">${esc(p.t)}</b><div class="meta">${who(p.u)} · ${p.age}${p.age==='just now'?'':' ago'}</div>
+ <div>${p.solved||verified(p)?'<span class="tag g">✓ Answered</span>':'<span class="tag y">Needs an answer</span>'}${qTag(p)}<span class="tag">👥 ${p.asks} asked</span>${p.replies.some(pending)?'<span class="tag r">🚩 AI answer under review</span>':''}${p.replies.some(r=>r.role==='ai')?'<span class="tag ai">✨ has AI answer</span>':''}</div>
+ <div style="margin-top:4px"><a class="meta" style="cursor:pointer;color:var(--blue)" onclick="toggleExp(${p.id})">${ex?'▾ Hide':'▸ See'} responses (${p.replies.length})</a> · <a class="meta" style="cursor:pointer;color:var(--blue)" onclick="checkAI(${p.id})">🔍 Check if AI-generated</a></div>
+ ${ex?`<div style="margin:6px 0">${p.replies.map(r=>{const t=trust(r);return `<div class="reply" style="background:#fafafa;border-color:#eee"><div style="flex:1"><b>${esc(r.u)}</b> ${TL[t]} <a class="meta" style="cursor:pointer;color:var(--blue)" onclick="checkAI(${p.id},${r.id})">🔍</a><div>${t==='flag'&&!staff()?'<span class="meta">Hidden while Nike checks this AI answer.</span>':esc(r.b)}</div></div></div>`}).join('')||'<div class="meta">No responses yet.</div>'}</div>`:''}</div><button class="btn s sm" onclick="go('thread',${p.id})">Open</button></div>`}
+const FMT={Text:()=>{const k=kbFor(QUESTION)[0];return k.body},Podcast:()=>'🎧 2:10 audio summary: three causes, permissions, version, delay.',Diagram:()=>'<div style="font-family:monospace;font-size:12px">[Run] → App → <b>Health permission?</b> → Apple Health<br>If Workouts is off, the run never reaches Health.</div>'};
+function home(){const m=match(QUESTION).slice(0,2),qs=qsFor();
+ return `<div class="hero"><b style="font-size:16px">Hi ${ME.split(' ')[0]}! Welcome to the Nike Member Community</b><div>Get instant answers from our knowledge base and fellow runners</div></div>
+ ${srcBanner()}${SRC==='chatgpt'?'':`<div class="post">${av(ME)}<div><b>${ME}</b><div>${esc(QUESTION)}</div></div></div>`}
+ <div class="card" style="border-color:#1264a3;margin-left:44px"><b>Agent</b> <span class="tag">APP</span> <span class="meta">Tagging peers who solved this, and pulling the official steps.</span>
+  <div style="display:flex;gap:6px;margin:8px 0">${['Text','Video','Podcast','Diagram'].map(x=>`<span class="chip ${S.fmt===x?'on':''}" onclick="S.fmt='${x}';save();render()">${{Text:'📝',Video:'🎬',Podcast:'🎙',Diagram:'📊'}[x]} ${x}</span>`).join('')}</div>
+  ${S.fmt==='Video'?vplayer('sync'):`<div style="font-size:13px"><b>Why are my runs not reaching Apple Health?</b><p>${FMT[S.fmt]()}</p></div>`}
+  <button class="btn s sm" onclick="go('thread',1)">View Full Discussion</button></div>
+ <h4 style="margin:12px 0 6px">Expert Match</h4>${m.map(expCard).join('')}
+ <div class="card"><b>🔥 Trending for you</b><div style="display:flex;gap:6px;margin:6px 0">${['All','Unanswered','Solved','AI-posted','Has AI answers'].map(x=>`<span class="chip ${S.filter===x?'on':''}" onclick="S.filter='${x}';render()">${x}</span>`).join('')}</div>${qs.map(postHtml).join('')}</div>
+ <div class="card"><b>Ask the community</b><textarea id="nq" rows="2" placeholder="Ask a question" oninput="dup(this.value)"></textarea><div id="dup"></div><label class="meta"><input type="checkbox" id="nai"> I used AI to write this question</label><button class="btn" style="margin-top:6px" onclick="newQ()">Post</button></div>`}
+function dup(v){const k=v.length>3?kbFor(v)[0]:null;$('dup').innerHTML=k?`<div class="card" style="background:#f4f8fd;margin-top:6px"><div class="meta">Already answered in the knowledge base:</div><b>${esc(k.t)}</b><div>${esc(k.body)}</div></div>`:''}
+function newQ(){const v=$('nq').value.trim();if(!v){toast('Write a question first');return}const t=(match(v)[0]&&S.mem[match(v)[0]].topics.find(x=>v.toLowerCase().includes(x)))||'general';
+ const dd=detectAI(v),dis=$('nai').checked,aiP=dis?{why:'Disclosed by the author',state:'disclosed'}:dd.score>=60?{why:dd.R[0]||'AI-style wording',state:'pending'}:undefined;S.posts.unshift({id:S.nid++,type:'q',u:ME,t:v,b:v,topic:t,asks:1,age:'just now',solved:false,aiPost:aiP,replies:[]});if(aiP){toast(dis?'Posted with an AI-assisted label':'AI check flagged this question for staff review')}else award(ME,2,'asked a question');save();render()}
+function expCard(n){const m=S.mem[n],st=S.conn[n];return `<div class="card"><div class="row"><div style="display:flex;gap:8px;align-items:center">${av(n)}<div>${who(n)}<div class="meta">${m.role}</div></div></div><div style="display:flex;gap:4px">${st?`<span class="tag ${st==='pending'?'y':'g'}">${st==='pending'?'Request sent':'Connected'}</span>`:`<button class="btn s sm" onclick="openConn('${n}')">👤 Add connection</button>`}<button class="btn s sm" onclick="msg('${n}')">💬</button><button class="btn s sm" onclick="huddle('${n}')">🎧</button></div></div></div>`}
+function openConn(n){$('modal').innerHTML=`<h3 style="margin-top:0">Add ${n} as a connection</h3><div class="meta">${S.mem[n].role}</div><textarea id="cn" rows="3">Hi ${n.split(' ')[0]}, could you help with my question?</textarea><div style="text-align:right;margin-top:10px"><button class="btn s" onclick="$('ov').classList.remove('on')">Cancel</button> <button class="btn" onclick="sendConn('${n}')">Send request</button></div>`;$('ov').classList.add('on')}
+function sendConn(n){S.conn[n]='pending';$('ov').classList.remove('on');save();render();toast('Request sent');setTimeout(()=>{S.conn[n]='connected';save();render();award(ME,2,'grew your network');toast(n+' accepted your request')},2500)}
+function hot(){return `<h3>🔥 Hot discussions</h3><div class="card">${[...S.posts].filter(visQ).sort((a,b)=>b.asks-a.asks).map(postHtml).join('')}</div>`}
+/* ---------- ideas / feedback ---------- */
+function ideas(){const L=S.posts.filter(p=>p.type==='idea').sort((a,b)=>b.votes-a.votes);
+ return `<h3>💡 Ideas & feedback</h3><div class="meta">Your feedback goes to the product team. Ideas reaching 100 votes are sent automatically.</div>
+ <div class="card"><b>Share product or service feedback</b><input class="in" id="it" placeholder="Idea title" style="margin-top:6px"><textarea id="ib" rows="2" placeholder="What would make it better?" style="margin-top:6px"></textarea><div style="display:flex;gap:8px;margin-top:6px"><select class="in" id="ic" style="width:auto"><option>Product</option><option>App</option><option>Service</option></select><button class="btn" onclick="newIdea()">Submit</button></div></div>
+ <div class="card">${L.map(p=>`<div class="post"><div style="text-align:center;min-width:54px"><button class="btn s sm ${S.voted[p.id]?'':''}" onclick="voteIdea(${p.id})">▲ ${p.votes}</button></div><div style="flex:1"><b>${esc(p.t)}</b><div class="meta">${who(p.u)} · #${p.cat}</div><div>${esc(p.b)}</div>
+  <span class="tag ${p.status==='Shipped'?'g':p.status==='Planned'?'b':'y'}">${p.status}</span>${S.routed[p.id]?'<span class="tag or">Sent to Product team</span>':''}${p.status==='Shipped'?'<span class="tag g">You said, we did</span>':''}</div></div>`).join('')}</div>`}
+function newIdea(){const t=$('it').value.trim();if(!t){toast('Add a title');return}S.posts.push({id:S.nid++,type:'idea',u:ME,t,b:$('ib').value||t,topic:'general',votes:1,status:'Under review',cat:$('ic').value,age:'just now',replies:[]});S.voted[S.nid-1]=1;award(ME,3,'shared feedback');save();render()}
+function voteIdea(id){const p=S.posts.find(x=>x.id===id);if(S.voted[id]){toast('Already voted');return}S.voted[id]=1;p.votes++;award(p.u,1,'idea got a vote');if(p.votes>=100&&!S.routed[id]){S.routed[id]=true;toast('Reached 100 votes: auto-sent to the Product team')}save();render()}
+/* ---------- KB ---------- */
+function kb(){return `<h3>📚 Knowledge base</h3><div class="card">${S.kb.map(k=>`<div class="row"><div><b>${esc(k.t)}</b><div class="meta">${esc(k.body)}</div></div><span class="tag g">Official</span></div>`).join('')}</div><div class="meta">New articles come from the admin “Knowledge gaps” list. Published articles are used by the Agent immediately.</div>`}
+/* ---------- admin ---------- */
+function admin(){if(!staff())return '<div class="card">Admin insights are for Nike staff. Switch “View as” to Nike staff.</div>';
+ const qs=S.posts.filter(p=>p.type==='q'&&!p.aiPost),most=[...qs].sort((a,b)=>b.asks-a.asks),gaps=qs.filter(p=>!verified(p)).sort((a,b)=>b.asks-a.asks),ids=S.posts.filter(p=>p.type==='idea').sort((a,b)=>b.votes-a.votes);
+ const defl=Math.round(100*qs.filter(p=>p.solved||verified(p)).length/qs.length);
+ return `<h3>🛠 Admin insights</h3><div class="card"><div style="display:flex;gap:18px;flex-wrap:wrap"><div><b style="font-size:22px">${defl}%</b><div class="meta">questions with a verified answer</div></div><div><b style="font-size:22px">${gaps.length}</b><div class="meta">knowledge gaps</div></div><div><b style="font-size:22px">${S.kb.length}</b><div class="meta">KB articles</div></div><div><b style="font-size:22px">${ids.length}</b><div class="meta">open ideas</div></div></div></div>
+ ${flagQueue()}<div class="card"><b>1 · Most-asked questions</b> <span class="meta">sent to the admin queue</span>${most.slice(0,5).map(p=>`<div class="row"><div><b>${esc(p.t)}</b><div class="meta">👥 ${p.asks} members asked${p.replies.some(pending)?' · 🚩 has a flagged AI answer':''}</div></div><div>${S.sent[p.id]?'<span class="tag or">In admin queue</span>':`<button class="btn s sm" onclick="sendAdmin(${p.id})">Send to admin</button>`}</div></div>`).join('')}</div>
+ <div class="card"><b>2 · Knowledge gaps</b> <span class="meta">questions with no verified answer</span>${gaps.map(p=>`<div class="row"><div><b>${esc(p.t)}</b><div class="meta">👥 ${p.asks} asked · no official answer</div></div><div>${S.drafts[p.id]==='draft'?`<button class="btn sm" onclick="publishKB(${p.id})">Review and publish</button>`:`<button class="btn s sm" onclick="draftKB(${p.id})">✨ Draft KB article</button>`}</div></div>`).join('')||'<div class="meta">No gaps. Great.</div>'}</div>
+ <div class="card"><b>3 · Product & service feedback</b> <span class="meta">ranked by member votes</span>${ids.map(p=>`<div class="row"><div><b>${esc(p.t)}</b><div class="meta">▲ ${p.votes} · #${p.cat} · ${p.status}${S.routed[p.id]?' · sent to Product':''}</div></div><div>${S.routed[p.id]?'':`<button class="btn s sm" onclick="routeIdea(${p.id})">Route to Product</button>`} <select class="in" style="width:auto;padding:2px" onchange="setStatus(${p.id},this.value)">${['Under review','Planned','Shipped'].map(x=>`<option ${x===p.status?'selected':''}>${x}</option>`).join('')}</select></div></div>`).join('')}</div>`}
+function sendAdmin(id){S.sent[id]=true;save();render();toast('Sent to the community admin queue')}
+function draftKB(id){S.drafts[id]='draft';save();render();toast('AI drafted an article from related threads. Review before publishing')}
+function publishKB(id){const p=S.posts.find(x=>x.id===id);const v=prompt('Official answer to publish for: '+p.t,'Add the official guidance here.');if(!v)return;
+ const kw=p.t.toLowerCase().split(/\W+/).filter(w=>w.length>4);S.kb.push({t:p.t.replace(/\?$/,''),rx:kw.length?kw.join('|'):'zzzz',body:v});p.solved=true;S.drafts[id]='published';award('Coach Maya',10,'published a KB article');save();render();toast('Published. The Agent will now answer this from the KB')}
+function routeIdea(id){S.routed[id]=true;save();render();toast('Routed to the Product team')}
+function setStatus(id,v){S.posts.find(x=>x.id===id).status=v;save();render();toast('Status set to '+v+'. Voters are notified')}
+/* ---------- studio ---------- */
+function studio(){if(!staff())return '<div class="card">Video studio is for Nike staff.</div>';
+ return `<h3>🎬 Video studio</h3><div class="meta">Turns approved knowledge into step-by-step troubleshooting videos.</div>
+ <div class="card"><b>Render settings</b><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><select class="in" style="width:auto"><option>English</option><option>Español</option><option>हिन्दी</option></select><select class="in" style="width:auto"><option>Warm voice</option><option>Neutral voice</option></select><select class="in" style="width:auto"><option>Under 1 min</option><option>1 to 2 min</option></select><label class="meta"><input type="checkbox" checked> Captions</label><label class="meta"><input type="checkbox" checked> Use product screens</label></div></div>
+ ${Object.keys(VIDEOS).map(t=>{const st=S.vid[t]||{status:'none'},cur=st.status==='rendering'?Math.floor(st.pct/25):st.status==='ready'?4:-1;
+  return `<div class="card"><b>${VIDEOS[t].title}</b><div class="meta">Sources: ${VIDEOS[t].src.join(' · ')}</div><div class="pipe">${STAGES.map((s,i)=>`<div class="${i<cur?'done':i===cur?'cur':''}">${i<cur?'✓ ':''}${s}</div>`).join('')}</div>
+  ${st.status==='rendering'?`<div class="prog"><div style="width:${st.pct}%"></div></div>`:''}
+  ${st.status==='ready'?`<div>${st.verified?'<span class="tag g">✓ Reviewed</span>':'<span class="tag ai">AI-generated · needs review</span>'} <button class="btn s sm" onclick="go('thread',${S.posts.find(p=>p.topic===t&&p.type==='q').id})">Preview</button> ${st.verified?'':`<button class="btn sm" onclick="S.vid['${t}'].verified=true;save();render();toast('Verified. The label is updated for members')">Verify and publish</button>`} <button class="btn s sm" onclick="startRender('${t}')">Re-render</button></div>`:st.status==='none'?`<button class="btn o sm" onclick="startRender('${t}')">Render video</button>`:''}</div>`}).join('')}`}
+/* ---------- thread ---------- */
+function thread(){const p=S.posts.find(x=>x.id===S.open),k=kbFor(p.t+' '+p.topic)[0];
+ if(p.type==='idea')return `<a class="meta" style="cursor:pointer" onclick="go('ideas')">← Back</a><div class="card"><h3>${esc(p.t)}</h3><div>${esc(p.b)}</div></div>`;
+ return `${srcBanner()}<a class="meta" style="cursor:pointer" onclick="go('home')">← Back to community</a>
+ <div style="display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;margin-top:8px"><div><div class="card"><b># ${p.topic}</b>
+  <div class="post">${av(p.u)}<div>${who(p.u)}<h3 style="margin:2px 0">${esc(p.t)}</h3><div>${esc(p.b)}</div><a class="meta" style="cursor:pointer;color:var(--blue)" onclick="checkAI(${p.id})">🔍 Check if this question is AI-generated</a></div></div>${qBanner(p)}
+  ${repList(p)}</div>
+  <div class="card"><textarea id="rb" rows="2" placeholder="Reply"></textarea><div style="display:flex;gap:8px;margin-top:6px;align-items:center;flex-wrap:wrap"><label class="meta"><input type="checkbox" id="rai"> I used AI to help write this</label>
+   <button class="btn s sm" style="margin-left:auto" onclick="aiDraft(${p.id})">✨ AI draft</button>${p.u===ME&&p.replies.length&&!p.solved?`<button class="btn s sm" onclick="markFixed(${p.id})">✅ This fixed it</button>`:''}<button class="btn" onclick="reply(${p.id})">Reply</button></div></div></div>
+ <div>${trustCard(p)}<div class="card"><b>TL;DR</b><div style="font-size:13px;margin-top:4px">${k?esc(k.body):'No official answer yet. Members have asked this '+p.asks+' times.'}</div></div>
+  <div class="card"><b>🎬 Troubleshooting video</b><div style="margin-top:6px">${VIDEOS[p.topic]?vplayer(p.topic):'<div class="meta">No video template for this topic.</div>'}</div></div></div></div>`}
+function reply(id){const v=$('rb').value.trim();if(!v){toast('Write something first');return}const p=S.posts.find(x=>x.id===id),ai=$('rai').checked,u=staff()?'Coach Maya':ME;
+ const sus=!staff()&&!ai&&/as an ai|certainly!|i hope this helps|delve|in conclusion|it is important to note/i.test(v);p.replies.push({id:S.nid++,u,role:staff()?'staff':'member',up:0,b:v+(ai?' (AI-assisted)':''),flag:sus?{why:'Writing pattern looks AI-generated and was not disclosed',state:'pending'}:undefined});if(sus)toast('AI check flagged your reply for staff review');else award(u,2,'replied');save();render()}
+function aiDraft(id){const p=S.posts.find(x=>x.id===id);if(p.replies.some(r=>r.role==='ai')){toast('AI already drafted one');return}const k=kbFor(p.t+' '+p.topic)[0];
+ p.replies.push({id:S.nid++,u:'AI assistant',role:'ai',b:k?'From the knowledge base: '+k.body:'I do not have verified material for this, so a Coach should answer.'});save();render();toast('AI draft added and labelled. AI answers earn no points')}
+function mod(pid,rid,s){S.posts.find(x=>x.id===pid).replies.find(x=>x.id===rid).flag.state=s;save();render();toast(s==='approved'?'Approved':'Removed')}
+function markFixed(id){const p=S.posts.find(x=>x.id===id);p.solved=true;p.replies.forEach(r=>{if(r.role!=='ai'){r.best=r.best||false;award(r.u,10,'helped resolve a question')}});p.replies.filter(r=>r.role!=='ai')[0].best=true;award(ME,5,'resolved a question');save();render();toast('Resolved. Helpers earned +10 each and the tip is queued for the KB')}
+
+
+/* ---------- AI detection ---------- */
+function detectAI(t,role){const T=(t||'').toLowerCase(),R=[];let s=0;const c=(re,w,m)=>{if(re.test(T)){s+=w;R.push(m)}};
+ if(role==='ai'){return{score:100,R:['Written by the AI assistant (system-labelled)']}}
+ if(/\(ai-assisted\)/.test(T)){return{score:100,R:['Author disclosed AI help']}}
+ c(/certainly!|as an ai|i hope this helps|delve|it is important to note|in conclusion|comprehensive overview|navigate the/,35,'Stock AI phrasing');
+ c(/\btop \d+\b|ultimate guide|best of \d/,15,'Listicle / SEO-style wording');
+ c(/please provide|kindly provide/,15,'Instruction-style, prompt-like wording');
+ c(/all models|always|never|exactly|guarantee/,25,'Absolute claims that conflict with fit guidance');
+ if(T.length>120&&!/\b(i|i'm|i've|don't|can't|it's|my|me)\b/.test(T)){s+=15;R.push('Long and formal with no first-person voice')}
+ return{score:Math.min(98,s),R}}
+function verdict(n){return n>=60?['Likely AI-generated','r']:n>=30?['Possibly AI-assisted','y']:['Likely human','g']}
+function checkAI(pid,rid){const p=S.posts.find(x=>x.id===pid),r=rid?rep(pid,rid):null,txt=r?r.b:p.t+' '+p.b,d=detectAI(txt,r&&r.role),v=verdict(d.score),who_=r?r.u:p.u;
+ $('modal').innerHTML=`<h3 style="margin-top:0">🔍 AI check</h3><div class="meta">${r?'Reply':'Question'} by ${esc(who_)}</div><div style="background:#f6f6f6;border-radius:6px;padding:8px;margin:8px 0;font-size:13px">${esc(txt)}</div>
+ <div class="row"><b>${v[0]}</b><span class="tag ${v[1]}">${d.score}% AI likelihood</span></div><div class="prog"><div style="width:${d.score}%;background:${d.score>=60?'#b3123a':d.score>=30?'#ecb22e':'#2eb67d'}"></div></div>
+ <div style="margin-top:8px"><b style="font-size:12px">Signals</b>${d.R.map(x=>`<div class="meta">• ${x}</div>`).join('')||'<div class="meta">• No AI-style signals found</div>'}</div>
+ ${(r&&r.flag)||(!r&&p.aiPost)?`<div class="meta" style="margin-top:6px">Moderation status: <b>${(r?r.flag.state:p.aiPost.state)}</b></div>`:''}
+ <div class="meta" style="margin-top:8px">Heuristic estimate for the prototype, not proof. Staff make the final call.</div><div style="text-align:right;margin-top:8px"><button class="btn" onclick="$('ov').classList.remove('on')">Close</button></div>`;$('ov').classList.add('on')}
+const TL={val:'<span class="tag g">✓ Validated by Nike</span>',comm:'<span class="tag g">✓ Community-validated</span>',ai:'<span class="tag ai">✨ AI-written</span>',flag:'<span class="tag r">🚩 AI-flagged</span>',removed:'<span class="tag r">Removed</span>',none:'<span class="tag y">Unvalidated</span>'};
+const visQ=p=>p.type==='q'&&!(p.aiPost&&p.aiPost.state==='removed'&&!staff());
+function qsFor(){const F=S.filter;return S.posts.filter(p=>visQ(p)&&(F==='All'||(F==='Unanswered'&&!(p.solved||verified(p)))||(F==='Solved'&&(p.solved||verified(p)))||(F==='AI-posted'&&p.aiPost)||(F==='Has AI answers'&&p.replies.some(r=>r.role==='ai'||r.flag))))}
+function qTag(p){if(!p.aiPost)return '';const a=p.aiPost.state;return a==='pending'?'<span class="tag r">🤖 Posted by AI · under review</span>':a==='disclosed'?'<span class="tag ai">✨ AI-assisted question</span>':a==='verified'?'<span class="tag g">Human-verified</span>':'<span class="tag r">Removed</span>'}
+function qBanner(p){if(!p.aiPost)return '';const a=p.aiPost;
+ return `<div class="card" style="background:#fff5f8;border-color:#f3c3d0;margin:6px 0">${qTag(p)}<div class="meta">${a.state==='verified'?'Staff confirmed a real member wrote this.':a.state==='disclosed'?'The author said AI helped write this question.':'This question looks AI-generated or comes from an automated account. It earns no points and is excluded from trending counts.'} Reason: ${esc(a.why)}</div>${staff()&&a.state==='pending'?`<button class="btn sm" onclick="modQ(${p.id},'verified')">Mark human-verified</button> <button class="btn sm bad" onclick="modQ(${p.id},'removed')">Remove as spam</button>`:''}</div>`}
+function modQ(id,st){S.posts.find(x=>x.id===id).aiPost.state=st;save();render();toast(st==='verified'?'Marked human-verified':'Removed as spam')}
+function toggleExp(id){S.exp[id]=!S.exp[id];save();render()}
+
+/* ---------- arrival source banner ---------- */
+function srcBanner(){if(SRC==='chatgpt'){const p=S.posts.find(x=>x.id===1),val=p.replies.filter(r=>['val','comm'].includes(trust(r))).length;
+ return `<div class="card" style="background:#f4f8fd;border-color:#b9d4ec"><b>👋 You came from ChatGPT</b><div style="font-size:13px;margin:4px 0">ChatGPT pointed you here for real-runner experience. <b>${p.asks} runners</b> asked this, and <b>${val} answers</b> are validated by Nike or the community. AI answers here are labelled and checked.</div>
+ <button class="btn sm" ${S.same?'disabled':''} onclick="sameProb()">🙋 ${S.same?'Counted, thanks':'I have this problem too'}</button> <button class="btn s sm" onclick="postMine()">Post my own question</button></div>`}
+ if(SRC==='website')return `<div class="card" style="background:#f6f6f6"><div class="row"><span class="meta">From the Help article <b>Runs not syncing to Apple Health</b></span><button class="btn s sm" onclick="parent.postMessage({type:'nk-back'},'*')">← Back to article</button></div></div>`;return ''}
+function sameProb(){if(S.same)return;S.same=1;S.posts.find(x=>x.id===1).asks++;save();render();toast('Counted. Nike sees this question is common')}
+function postMine(){const id=S.nid++;S.posts.unshift({id,type:'q',u:ME,t:QUESTION,b:QUESTION,topic:'sync',asks:1,age:'just now',solved:false,replies:[]});award(ME,2,'asked a question');S.view='thread';S.open=id;save();render()}
+/* ---------- trust labels ---------- */
+function trust(r){if(r.flag&&r.flag.state==='pending')return'flag';if(r.flag&&r.flag.state==='removed')return'removed';if(r.role==='ai')return'ai';if(r.role==='staff'||r.val)return'val';if((r.up||0)>=3||r.best)return'comm';return'none'}
+function trustCard(p){const c={val:0,comm:0,ai:0,flag:0};p.replies.forEach(r=>{const t=trust(r);if(t==='val')c.val++;if(t==='comm')c.comm++;if(t==='ai')c.ai++;if(t==='flag'||t==='removed')c.flag++});
+ return `<div class="card"><b>Answer trust</b><div style="margin-top:4px"><span class="tag g">✓ ${c.val} Nike-validated</span><span class="tag g">✓ ${c.comm} community-validated</span><span class="tag ai">✨ ${c.ai} AI-written</span><span class="tag r">🚩 ${c.flag} AI-flagged</span></div></div>`}
+function repList(p){const F=S.tf,keep=r=>{const t=trust(r);if(t==='removed'&&!staff())return false;return F==='All'||(F==='Validated'&&(t==='val'||t==='comm'))||(F==='AI'&&(t==='ai'||t==='flag'||t==='removed'))};
+ const chips=['All','Validated','AI'].map(x=>`<span class="chip ${F===x?'on':''}" onclick="S.tf='${x}';render()">${{All:'All answers',Validated:'✓ Validated',AI:'✨ AI & flagged'}[x]}</span>`).join(' ');
+ const L=p.replies.filter(keep);
+ return `<div style="margin:6px 0">${chips}</div>`+(L.map(r=>{const t=trust(r),pend=t==='flag',voted=S.hv[p.id+'-'+r.id];
+  const lab={val:'<span class="tag g">✓ Validated by Nike</span>',comm:'<span class="tag g">✓ Community-validated</span>',ai:'<span class="tag ai">✨ AI-written</span>',flag:'<span class="tag r">🚩 AI-flagged</span>',removed:'<span class="tag r">Removed by staff</span>',none:'<span class="tag y">Unvalidated</span>'}[t]+(r.flag&&r.flag.state==='approved'?'<span class="tag g">AI answer approved by staff</span>':'');
+  return `<div class="reply ${pend?'flag':t==='val'||t==='comm'?'best':t==='ai'?'ai':''}">${av(r.u)}<div style="flex:1">${r.role==='ai'?'<b>AI assistant</b>':who(r.u)} ${lab}${r.best?'<span class="tag g">Accepted</span>':''}
+  <div>${pend&&!staff()?'<span class="meta">Hidden while Nike checks this AI answer.</span>':esc(r.b)}</div>
+  ${pend&&staff()?`<div class="meta">AI check: ${r.flag.why}</div><button class="btn sm" onclick="mod(${p.id},${r.id},'approved')">Approve</button> <button class="btn sm bad" onclick="mod(${p.id},${r.id},'removed')">Remove</button> <button class="btn s sm" onclick="checkAI(${p.id},${r.id})">🔍 Check AI</button>`:''}
+  ${!pend&&t!=='removed'?`<div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn s sm" onclick="checkAI(${p.id},${r.id})">🔍 Check AI</button><button class="btn s sm" ${voted||r.u===ME||r.role==='ai'?'disabled':''} onclick="helpful(${p.id},${r.id})">👍 Helpful ${r.up||0}</button>${staff()&&r.role!=='ai'&&t!=='val'?`<button class="btn sm" onclick="validate(${p.id},${r.id})">✓ Validate</button>`:''}${r.role!=='ai'&&r.u!==ME&&!staff()?`<button class="btn s sm" onclick="report(${p.id},${r.id})">🚩 Report as AI-generated</button>`:''}</div>`:''}</div></div>`}).join('')||'<div class="meta">Nothing in this filter yet.</div>')}
+function rep(pid,rid){return S.posts.find(x=>x.id===pid).replies.find(x=>x.id===rid)}
+function helpful(pid,rid){const r=rep(pid,rid),k=pid+'-'+rid;if(S.hv[k])return;S.hv[k]=1;r.up=(r.up||0)+1;award(r.u,1,'reply marked helpful');if(r.up===3){award(r.u,5,'answer became community-validated');toast('Now community-validated')}save();render()}
+function validate(pid,rid){const r=rep(pid,rid);r.val=true;award(r.u,5,'answer validated by Nike');save();render();toast('Validated. It now counts as a verified answer')}
+function report(pid,rid){const r=rep(pid,rid);r.flag={why:'Reported by a member as possibly AI-generated',state:'pending'};save();render();toast('Reported. Held for staff review')}
+function flagQueue(){const q=[],qq=S.posts.filter(p=>p.aiPost&&p.aiPost.state==='pending');S.posts.forEach(p=>p.replies.forEach(r=>{if(pending(r))q.push([p,r])}));
+ return `<div class="card" style="border-color:#f3c3d0"><b>🚩 AI-flagged answers</b> <span class="meta">${q.length+qq.length} awaiting review</span>${qq.map(p=>`<div class="row"><div><b>🤖 Question: ${esc(p.t)}</b><div class="meta">${esc(p.u)} · ${p.aiPost.why}</div></div><div style="white-space:nowrap"><button class="btn sm" onclick="modQ(${p.id},'verified')">Human-verified</button> <button class="btn sm bad" onclick="modQ(${p.id},'removed')">Remove</button></div></div>`).join('')}${q.map(([p,r])=>`<div class="row"><div><b>${esc(p.t)}</b><div class="meta">${esc(r.u)}: “${esc(r.b)}”<br>${r.flag.why}</div></div><div style="white-space:nowrap"><button class="btn sm" onclick="mod(${p.id},${r.id},'approved')">Approve</button> <button class="btn sm bad" onclick="mod(${p.id},${r.id},'removed')">Remove</button></div></div>`).join('')||'<div class="meta">Queue is clear.</div>'}</div>`}
+/* ---------- connections ---------- */
+const REPLIES={'Tasha Obi':'Start with Health > Data Access > Nike Run Club > Workouts. Want to hop on a huddle?','Dev Anand':'Happy to help. Which phone and app version are you on?','Leo Park':'Thanks for connecting. I am new here too.','Sara Parras':'Hi! Ask me anything about trail runs.','Coach Maya':'Hi, a coach will follow up here.'};
+function msg(n){if(S.conn[n]!=='connected'){toast(S.conn[n]==='pending'?'Waiting for them to accept':'Add them as a connection first');return}S.chat=n;go('network')}
+function huddle(n){if(S.conn[n]!=='connected'){toast('Add them as a connection first');return}S.huddle=n;S.chat=n;save();go('network');toast('Huddle started with '+n)}
+function sendDM(){const v=$('dm').value.trim(),n=S.chat;if(!v)return;(S.dms[n]=S.dms[n]||[]).push({me:1,t:v});save();render();setTimeout(()=>{S.dms[n].push({me:0,t:REPLIES[n]||'Thanks for reaching out.'});save();if(S.view==='network')render()},1200)}
+function acceptReq(n){S.incoming=S.incoming.filter(x=>x!==n);S.conn[n]='connected';award(ME,2,'grew your network');save();render()}
+function declineReq(n){S.incoming=S.incoming.filter(x=>x!==n);save();render()}
+function network(){const conn=Object.keys(S.conn).filter(n=>S.conn[n]==='connected'),pend=Object.keys(S.conn).filter(n=>S.conn[n]==='pending'),sug=Object.keys(S.mem).filter(n=>n!==ME&&!S.mem[n].staff&&!S.conn[n]&&!S.incoming.includes(n));
+ return `<h3>👥 Connections</h3>
+ ${S.huddle?`<div class="card" style="background:#1d1c1d;color:#fff">🎧 In huddle with <b>${S.huddle}</b> <button class="btn bad sm" style="float:right" onclick="S.huddle=null;save();render()">Leave</button></div>`:''}
+ ${S.incoming.length?`<div class="card"><b>Requests</b>${S.incoming.map(n=>`<div class="row"><div>${who(n)}<div class="meta">wants to connect</div></div><div><button class="btn sm" onclick="acceptReq('${n}')">Accept</button> <button class="btn s sm" onclick="declineReq('${n}')">Decline</button></div></div>`).join('')}</div>`:''}
+ <div class="card"><b>Your connections (${conn.length})</b>${conn.map(n=>`<div class="row"><div>${who(n)}<div class="meta">${S.mem[n].role}</div></div><div><button class="btn s sm" onclick="msg('${n}')">💬 Message</button> <button class="btn s sm" onclick="huddle('${n}')">🎧 Huddle</button></div></div>`).join('')||'<div class="meta">None yet. Add someone below, or from Expert Match.</div>'}${pend.length?`<div class="meta" style="margin-top:6px">Pending: ${pend.join(', ')}</div>`:''}</div>
+ ${S.chat?`<div class="card"><b>Chat with ${S.chat}</b><div style="margin:8px 0;min-height:60px">${(S.dms[S.chat]||[]).map(m=>`<div style="text-align:${m.me?'right':'left'}"><span style="display:inline-block;background:${m.me?'#e8f5fa':'#f2f2f2'};border-radius:10px;padding:4px 10px;margin:2px 0">${esc(m.t)}</span></div>`).join('')||'<div class="meta">Say hello.</div>'}</div><div style="display:flex;gap:6px"><input class="in" id="dm" placeholder="Message" onkeydown="if(event.key==='Enter')sendDM()"><button class="btn" onclick="sendDM()">Send</button></div></div>`:''}
+ <div class="card"><b>Suggested for you</b>${sug.map(n=>`<div class="row"><div>${who(n)}<div class="meta">${S.mem[n].role}</div></div><button class="btn s sm" onclick="openConn('${n}')">👤 Add connection</button></div>`).join('')||'<div class="meta">You know everyone.</div>'}</div>`}
+/* ---------- leaderboard + rail ---------- */
+function boardV(){const all=board(),top=all.slice(0,3),sel=S.prof?all.find(x=>x.n===S.prof):null;
+ return `<h3>🏆 Community leaderboard</h3><div style="background:#f4e1f5;border-radius:10px;padding:14px;display:flex;gap:14px;justify-content:center;align-items:flex-end">${[top[1],top[0],top[2]].map((x,i)=>`<div style="text-align:center;cursor:pointer" onclick="S.prof='${x.n}';render()"><div class="av" style="background:${COL[x.n.length%6]};width:${i===1?68:54}px;height:${i===1?68:54}px;margin:auto;font-size:18px">${x.n.split(/[ .]/).map(y=>y[0]).join('').slice(0,2)}</div><div style="background:#fff;border-radius:8px;padding:4px 8px;margin-top:6px;font-size:12px"><b>${x.n}</b><div class="meta">${x.pts} pts</div></div></div>`).join('')}</div>
+ <div class="card" style="margin-top:12px">${all.map((x,i)=>`<div class="row" style="cursor:pointer;${x.n===ME?'font-weight:700;color:var(--blue)':''}" onclick="S.prof='${x.n}';render()"><span>${i+1}. ${x.n}<div class="meta">${x.role}</div><span class="tag g">${x.badge}</span></span><b>${x.pts} pts</b></div>`).join('')}<div class="meta">Points: +10 helping resolve, +5 resolving, +3 feedback, +2 posting, +1 idea votes. AI answers and flagged posts earn nothing.</div></div>
+ ${sel?`<div class="card">${who(sel.n)}<div class="meta">${sel.role} · Active</div><div style="margin-top:6px"><button class="btn s sm" onclick="msg('${sel.n}')">Message</button> <button class="btn s sm" onclick="huddle('${sel.n}')">🎧 Huddle</button> ${S.conn[sel.n]||sel.n===ME?'':`<button class="btn sm" onclick="openConn('${sel.n}')">Add connection</button>`}</div></div>`:''}`}
+function rightRail(){const m=S.mem[ME],b=board().slice(0,4),next=m.pts>=300?null:m.pts>=100?300:m.pts>=40?100:40;
+ return `<div class="card"><b>🏅 Your standing</b><div style="font-size:22px">#${rank()} · ${m.pts} pts</div><span class="tag g">${lvl(m.pts)}</span>${next?`<div class="meta">${next-m.pts} pts to the next badge</div><div class="prog"><div style="width:${Math.min(100,m.pts/next*100)}%"></div></div>`:'<div class="meta">Top badge reached</div>'}</div>
+ <div class="card"><b>Leaderboard</b>${b.map((x,i)=>`<div class="row" style="${x.n===ME?'font-weight:700;color:var(--blue)':''}"><span>${i+1}. ${x.n}<div><span class="tag g">${x.badge}</span></div></span><b>${x.pts}</b></div>`).join('')}<a class="meta" style="cursor:pointer" onclick="go('board')">View full leaderboard</a></div>
+ <div class="card"><b>Trust labels</b><div class="meta"><span class="tag g">✓ Validated by Nike</span> staff-checked<br><span class="tag g">✓ Community-validated</span> 3+ helpful votes<br><span class="tag ai">✨ AI-written</span> disclosed AI, no points<br><span class="tag r">🚩 AI-flagged</span> held for review</div></div><div class="card"><b>Recent activity</b>${S.log.map(l=>`<div class="meta">+${l.pts} ${l.n===ME?'You':l.n} · ${l.why}</div>`).join('')||'<div class="meta">Post, reply or vote to earn points.</div>'}</div>`}
+render();
+</script></body></html>

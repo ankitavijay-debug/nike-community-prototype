@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Nike community – two use cases</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--ink:#111;--mut:#6b6b6b;--line:#e5e5e5;--or:#fa5400;--bg:#f5f5f5}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 "Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff}
+.strip{position:sticky;top:0;z-index:30;background:#111;color:#fff;display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;flex-wrap:wrap}
+.uc{padding:7px 14px;border-radius:8px;cursor:pointer;font-weight:700;background:#ffffff1f}.uc.on{background:var(--or)}
+.strip .sp{flex:1}.strip button{background:#fff;color:#111;border:0;border-radius:6px;padding:4px 10px;cursor:pointer;font-weight:600}.strip button.on{background:var(--or);color:#fff}
+.story{background:#fff8f3;border-bottom:1px solid #ffd9c2;padding:8px 16px;font-size:13px}
+.promo{background:var(--bg);text-align:center;font-size:12px;padding:6px}
+header{display:flex;align-items:center;gap:26px;padding:12px 32px;border-bottom:1px solid var(--line)}
+.logo{font-weight:900;font-size:22px;letter-spacing:-1px;font-style:italic}
+header nav{display:flex;gap:20px;font-weight:600;font-size:14px;flex:1}header nav a.on{border-bottom:2px solid var(--ink)}
+.srch{background:var(--bg);border-radius:20px;padding:6px 14px;font-size:13px;color:var(--mut);min-width:180px}
+.user{display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600}.pill{background:var(--ink);color:#fff;border-radius:14px;padding:3px 10px;font-size:12px}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 32px}
+.crumb{font-size:12px;color:var(--mut)}h1{font-size:40px;line-height:1;text-transform:uppercase;font-weight:900;letter-spacing:-1px;margin:8px 0 4px}
+.hero{background:var(--ink);color:#fff;border-radius:12px;padding:26px;margin:14px 0}.hero h1{margin:0 0 6px}
+.hero .box{background:#fff;color:var(--ink);border-radius:24px;padding:10px 18px;max-width:520px;margin-top:12px;font-size:14px}
+.topics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}.topics div{border:1px solid var(--line);border-radius:10px;padding:12px;font-weight:600;font-size:14px}.topics .on{border-color:var(--ink);background:var(--bg)}
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-top:10px}.tab{padding:10px 16px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;color:var(--mut)}.tab.on{color:var(--ink);border-color:var(--ink)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;margin-top:18px}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:24px;padding:8px 18px;font-weight:700;cursor:pointer;font-size:14px}.btn.s{background:#fff;color:var(--ink);border:1px solid #bbb}.btn.o{background:var(--or)}
+ol.steps{padding-left:20px}ol.steps li{margin:10px 0}
+.card{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:14px}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:4px;padding:1px 7px;background:#e1f5ee;color:#007a5a;margin-right:4px}
+.meta{font-size:12px;color:var(--mut)}
+iframe{width:100%;height:780px;border:1px solid var(--line);border-radius:12px;margin-top:16px}
+footer{background:var(--ink);color:#aaa;padding:22px 32px;font-size:12px;margin-top:40px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;border-radius:8px;padding:8px 16px;opacity:0;transition:.25s;pointer-events:none;z-index:50}.toast.show{opacity:1}
+/* chatgpt mock */
+.gpt{background:#fff;min-height:620px}.gpt .top{padding:12px 20px;font-weight:600;color:#444;border-bottom:1px solid var(--line)}
+.gpt .conv{max-width:720px;margin:0 auto;padding:24px 20px}
+.ub{background:#f4f4f4;border-radius:18px;padding:10px 16px;margin:0 0 20px auto;max-width:80%;width:fit-content}
+.src{display:inline-flex;gap:6px;align-items:center;border:1px solid #ddd;border-radius:16px;padding:3px 12px;font-size:12px;margin:3px 6px 3px 0;background:#fff}.src.hot{border-color:#10a37f;background:#effaf6;cursor:pointer;font-weight:600}
+.inp{margin-top:30px;border:1px solid #ddd;border-radius:24px;padding:12px 18px;color:#999}
+</style></head><body>
+<div class="strip"><b>Nike community prototype</b>
+ <span class="uc on" id="u1" onclick="uc(1)">① Arrives from ChatGPT</span><span class="uc" id="u2" onclick="uc(2)">② Arrives from the Nike website</span>
+ <span class="sp"></span>View as <button id="rm" class="on" onclick="role('member')">Member</button><button id="rs" onclick="role('staff')">Nike staff</button><button onclick="restart()">↺ Restart both</button></div>
+<div class="story" id="story"></div>
+
+<!-- USE CASE 1 -->
+<div id="c1">
+ <div id="g1" class="gpt"><div class="top">ChatGPT <span class="meta">(illustrative mock of an AI assistant)</span></div>
+  <div class="conv"><div class="ub">My Nike Run Club runs are not syncing to Apple Health. Anyone know why?</div>
+   <p><b>Common reasons Nike Run Club runs do not appear in Apple Health:</b></p>
+   <p><b>1. Permissions.</b> Workouts access may be off. Enable it under Settings › Privacy &amp; Security › Health › Nike Run Club.<br><b>2. App version or sign-in.</b> Update the app, then sign out and back in.<br><b>3. Sync delay.</b> Data can take a few minutes to appear.</p>
+   <p>These fixes work for many people, but results vary. For reports from real runners, see the community.</p>
+   <div class="meta" style="margin-top:14px">Sources</div>
+   <span class="src">🌐 Nike Help · Runs not syncing</span><span class="src hot" onclick="gptOpen()">🏃 Nike Member Community · 214 runners asked, validated answers ↗</span>
+   <div class="inp">Message ChatGPT</div></div></div>
+ <div id="s1" style="display:none"><div class="promo">Illustrative mock help site. Not an official Nike site.</div><div id="h1"></div>
+  <div class="wrap"><a class="meta" style="cursor:pointer" onclick="gptBack()">← Back to ChatGPT</a>
+   <div class="crumb" style="margin-top:6px">Member Community › Nike Run Club</div>
+   <iframe id="fr1" title="Community from ChatGPT"></iframe></div><footer>© Illustrative prototype</footer></div>
+</div>
+
+<!-- USE CASE 2 -->
+<div id="c2" style="display:none"><div class="promo">Illustrative mock help site. Not an official Nike site.</div><div id="h2"></div>
+ <div class="wrap">
+  <div class="crumb">Help › Apps › Nike Run Club</div>
+  <div class="hero"><h1>Nike Run Club help</h1><div>Answers from Nike, and from runners who have solved it.</div><div class="box">🔍 Runs not syncing to Apple Health</div></div>
+  <div class="topics"><div class="on">Syncing &amp; Apple Health</div><div>Sizing &amp; fit</div><div>Rewards &amp; streaks</div><div>Returns &amp; orders</div></div>
+  <div class="tabs"><div class="tab on" id="t1" onclick="tab(1)">Help article</div><div class="tab" id="t2" onclick="tab(2)">Community <span class="tag" style="background:#fff0e8;color:#b33c00">Live</span></div></div>
+  <div id="p1" class="cols"><div>
+    <h2 style="margin-top:0">Runs not syncing to Apple Health</h2><div class="meta">Updated by Nike Support · Reviewed</div>
+    <ol class="steps"><li>On your iPhone, open <b>Settings › Privacy &amp; Security › Health › Nike Run Club</b> and turn on <b>Workouts</b>.</li><li>Update the app from the App Store.</li><li>Sign out of the app, then sign back in.</li><li>Wait a few minutes, then open Apple Health. Your run should appear.</li></ol>
+    <div class="card" id="fb"><b>Was this article helpful?</b><div style="margin-top:8px"><button class="btn s" onclick="helpful(1)">👍 Yes</button> <button class="btn s" onclick="helpful(0)">👎 No, still stuck</button></div></div>
+    <div class="card" style="background:var(--bg)"><b>🎬 Prefer to watch?</b><div class="meta">A step-by-step video is in the community.</div><button class="btn o" style="margin-top:8px" onclick="openCommunity('video')">Watch troubleshooting video</button></div></div>
+   <aside><div class="card"><b>From the community</b><div class="meta" style="margin:4px 0">214 runners asked this</div><span class="tag">✓ Community-validated</span><div style="margin-top:6px;font-size:13px">“Check Health permissions: Settings › Privacy &amp; Security › Health › Nike Run Club and make sure Workouts is on.”</div><div class="meta">Tasha Obi · Marathon Mentor</div><button class="btn" style="margin-top:10px;width:100%" onclick="openCommunity('thread')">See the full discussion</button></div>
+    <div class="card"><b>Still need help?</b><div class="meta">Ask a question and get matched with runners and Nike coaches.</div><button class="btn o" style="margin-top:8px;width:100%" onclick="openCommunity('home')">Ask the community</button></div></aside></div>
+  <div id="p2" style="display:none"><iframe id="fr2" title="Community from website"></iframe></div>
+ </div><footer>© Illustrative prototype · Help · Privacy · Terms · Community guidelines</footer></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=i=>document.getElementById(i),F=()=>[$('fr1'),$('fr2')];
+const STORY={1:'<b>Use case 1 · Arrives from ChatGPT.</b> Jordan Lee is a first-time visitor, signed out of the community. ChatGPT cited the community as a source. Jordan lands on the real discussion with validated answers, sees how many runners had the same problem, and can join in.',
+ 2:'<b>Use case 2 · Arrives from the Nike website.</b> Alex Chen is a signed-in member reading a help article. The article did not solve it, so Alex moves into the community inside the same site and brand.'};
+const HDR=id=>`<header><span class="logo">NIKE</span><nav><a>New</a><a>Men</a><a>Women</a><a>Kids</a><a class="on">Help</a></nav><div class="srch">🔍 Search help</div><div class="user"><span id="${id}n"></span><span class="pill" id="${id}">🏅 …</span></div></header>`;
+$('h1').innerHTML=HDR('chipA');$('h2').innerHTML=HDR('chipB');
+const st={n:{chipA:'Jordan',chipB:'Alex'}};['chipA','chipB'].forEach(i=>$(i+'n').textContent='Hi '+st.n[i]);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+let cur=1;
+function uc(n){cur=n;$('c1').style.display=n===1?'block':'none';$('c2').style.display=n===2?'block':'none';$('u1').classList.toggle('on',n===1);$('u2').classList.toggle('on',n===2);$('story').innerHTML=STORY[n];if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website';window.scrollTo(0,0)}
+function gptOpen(){$('g1').style.display='none';$('s1').style.display='block';if(!$('fr1').src)$('fr1').src='nike-community.html?embed=1&src=chatgpt&view=thread&open=1'}
+function gptBack(){$('s1').style.display='none';$('g1').style.display='block'}
+function tab(n){$('p1').style.display=n===1?'grid':'none';$('p2').style.display=n===2?'block':'none';$('t1').classList.toggle('on',n===1);$('t2').classList.toggle('on',n===2);if(n===2&&!$('fr2').src)$('fr2').src='nike-community.html?embed=1&src=website'}
+function send(f,m){if(f.contentWindow)f.contentWindow.postMessage(m,location.origin)}
+function openCommunity(where){tab(2);const go=()=>send($('fr2'),where==='thread'?{type:'nk-go',view:'thread',open:1}:where==='video'?{type:'nk-go',view:'home',fmt:'Video'}:{type:'nk-go',view:'home'});
+ if($('fr2').contentDocument&&$('fr2').contentDocument.readyState==='complete')go();else $('fr2').onload=go}
+function helpful(y){$('fb').innerHTML=y?'<b>Thanks! Glad it helped.</b>':'<b>Sorry it did not solve it.</b><div class="meta" style="margin:4px 0">214 runners had the same problem. Their answers are validated by Nike and the community.</div><button class="btn o" onclick="openCommunity(\'thread\')">Open the community answers</button>'}
+function role(r){$('rm').classList.toggle('on',r==='member');$('rs').classList.toggle('on',r==='staff');F().forEach(f=>send(f,{type:'nk-role',role:r}));toast(r==='staff'?'Staff view: admin insights and moderation appear in the community menu':'Member view')}
+function restart(){if(!confirm('Reset both use cases?'))return;['nk4-chatgpt','nk4-website'].forEach(k=>localStorage.removeItem(k));location.reload()}
+addEventListener('message',e=>{if(e.origin!==location.origin)return;const d=e.data||{};
+ if(d.type==='nk'){const id=e.source===$('fr1').contentWindow?'chipA':'chipB';$(id).textContent=`🏅 #${d.rank} · ${d.pts} pts · ${d.lvl}`}
+ if(d.type==='nk-back'){tab(1)}});
+uc(1);
+</script></body></html>
